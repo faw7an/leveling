@@ -4,6 +4,8 @@ import Profile from "./components/profile/Profile";
 import StatCard from "./components/stat-dash/StatCard";
 import { Trophy, Flame } from "lucide-react";
 import ProgressRing from "./progress-ring/ProgressRing";
+import XpBar from "./components/xpBar/XpBar";
+import LevelingMenu from "./components/menu/LevelingMenu";
 
 export default function Home() {
   return (
@@ -15,9 +17,9 @@ export default function Home() {
         <Profile />
       </header>
       <main>
-        <p className="fixed text-gray-400 top-20 left-30 text-xl ">Level up your Productivity</p>
+        <p className="relative text-gray-400 top-25 left-30 text-xl ">Level up your Productivity</p>
         {/* Stats */}
-        <div className="m-25 grid grid-cols-2 grid-rows-2">
+        <div className="m-25 mb-3 grid grid-cols-2 grid-rows-3">
           <div className="col-start-1 col-end-2 row-start-1 row-end-2">
             <StatCard
               icon={Flame}
@@ -40,7 +42,14 @@ export default function Home() {
               iconSize={24}
             />
           </div>
+          <XpBar 
+          userLevel={7}
+          userXP={2340}
+          nextLevelXP={3000}
+          streakShields={2}
+          />
         </div>
+          <LevelingMenu />
       </main>
 
       <footer></footer>
