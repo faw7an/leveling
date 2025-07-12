@@ -6,6 +6,7 @@ import { Trophy, Flame } from "lucide-react";
 import ProgressRing from "./progress-ring/ProgressRing";
 import XpBar from "./components/xpBar/XpBar";
 import LevelingMenu from "./components/menu/LevelingMenu";
+import GoalCard from "./components/goalCard/GoalCard";
 
 export default function Home() {
   return (
@@ -17,9 +18,9 @@ export default function Home() {
         <Profile />
       </header>
       <main>
-        <p className="relative text-gray-400 top-25 left-30 text-xl ">Level up your Productivity</p>
+        <p className="relative text-gray-400 top-25 left-25 text-xl ">Level up your Productivity</p>
         {/* Stats */}
-        <div className="m-25 mb-3 grid grid-cols-2 grid-rows-3">
+        <div className="m-25 ml-10 mb-3 grid grid-cols-2 grid-rows-3">
           <div className="col-start-1 col-end-2 row-start-1 row-end-2">
             <StatCard
               icon={Flame}
@@ -50,6 +51,7 @@ export default function Home() {
           />
         </div>
           <LevelingMenu />
+          <GoalCard />
       </main>
 
       <footer></footer>
