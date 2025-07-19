@@ -1,6 +1,4 @@
-hey i wanna build like a daily goal tracker which i add monthly goals, weekly and dailly which keeps a daily streak of goals accomplished user should set up monthly and weekly goals and daily befor midnight shld have a next day goal inputed. there should be a component showing passange growth x out of 100% with daily achievement according to task achieved and when streak is broken it can be restored but only doing twice as much work. i need ur help with UI design can u visualize and refine this idea to make it better for a web app 
-
-////
+"use client"
 import React, { useState, useEffect } from 'react';
 import { Calendar, Target, Flame, TrendingUp, CheckCircle, Circle, Plus, Clock, Award, RotateCcw, Shield, Star, Users, Bell, BarChart3, Zap, Trophy, MessageCircle, Settings, ChevronRight, BookOpen, Dumbbell, Code, Brain, Heart, Briefcase, User } from 'lucide-react';
 

@@ -51,7 +51,15 @@ export default function Home() {
           />
         </div>
           <LevelingMenu />
-          <GoalCard />
+          <GoalCard 
+              DailyGoal={"Complete 5 intellectual books"}
+              starCount={300}
+              completedMilestones={2}
+              outOfMilestones={3}
+              difficulty={"hard"}
+              difficultyColor={"text-red-400"}
+              progress={67}
+          />
       </main>
 
       <footer></footer>
