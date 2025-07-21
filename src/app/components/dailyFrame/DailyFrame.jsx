@@ -1,5 +1,7 @@
+"use client";
 import { Flame, Star, Circle, CircleCheckBig } from "lucide-react";
 import React from "react";
+import { useState } from "react";
 function DailyFrame({
   goalIcon,
   goalTitle,
@@ -9,6 +11,7 @@ function DailyFrame({
   streakCount,
   difficultyColor,
 }) {
+  const [toggle, setToggle] = useState(false);
   return (
     <div>
       <div className="ml-25 mt-0 m-5 flex justify-between w-160 p-4 bg-gray-800 border border-gray-700 hover:border-gray-600 transition-all duration-300 rounded-2xl group">
@@ -21,9 +24,20 @@ function DailyFrame({
               {goalTitle}
             </p>
             <div className="flex flex-row gap-2 mt-2">
-              <Circle size={20} className="text-blue-400 " />
               {/* <CircleCheckBig size={20} className="text-blue-400"/> */}
-              <p className="text-sm text-gray-400">Completed | Pending</p>
+              <button
+                className="text-sm text-gray-400 flex flex-row gap-1"
+                onClick={() => {
+                    setToggle(!toggle)
+                    console.log(toggle);
+                }}
+              >
+                {toggle?<CircleCheckBig size={20} className="text-blue-400 " />:
+                <Circle size={20} className="text-blue-400 " />
+                }
+                
+                {toggle? "Completed":"Pending " }
+              </button>
             </div>
           </div>
         </div>
