@@ -51,7 +51,7 @@ export default function Home() {
           />
         </div>
           <LevelingMenu />
-          <GoalCard />
+           <GoalCard />
       </main>
 
       <footer></footer>

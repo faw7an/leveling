@@ -1,0 +1,121 @@
+<svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="120" cy="120" r="115" fill="url(#backgroundGradient)" stroke="url(#borderGradient)" stroke-width="4"/>
+  
+  <!-- Outer Progress Ring -->
+  <circle cx="120" cy="120" r="95" fill="none" stroke="#1f2937" stroke-width="8" opacity="0.3"/>
+  <circle cx="120" cy="120" r="95" fill="none" stroke="url(#progressGradient)" stroke-width="8" 
+          stroke-dasharray="240 360" stroke-dashoffset="60" stroke-linecap="round" 
+          transform="rotate(-90 120 120)"/>
+  
+  <!-- Inner Target Circle -->
+  <circle cx="120" cy="120" r="75" fill="url(#innerGradient)" stroke="#374151" stroke-width="2"/>
+  
+  <!-- Target Rings -->
+  <circle cx="120" cy="120" r="65" fill="none" stroke="#4b5563" stroke-width="1" opacity="0.5"/>
+  <circle cx="120" cy="120" r="55" fill="none" stroke="#6b7280" stroke-width="1" opacity="0.3"/>
+  
+  <!-- Central Target -->
+  <circle cx="120" cy="120" r="45" fill="url(#centerGradient)" stroke="#3b82f6" stroke-width="3"/>
+  
+  <!-- Bullseye -->
+  <circle cx="120" cy="120" r="25" fill="url(#bullseyeGradient)"/>
+  
+  <!-- Flame Icon (Streak Symbol) -->
+  <g transform="translate(100, 100)">
+    <path d="M20 35 C15 30, 10 25, 12 18 C14 12, 18 15, 20 10 C22 5, 28 8, 30 15 C32 22, 28 28, 25 32 C23 35, 21 35, 20 35 Z" 
+          fill="url(#flameGradient)" stroke="#f59e0b" stroke-width="0.5"/>
+  </g>
+  
+  <!-- Achievement Star -->
+  <g transform="translate(135, 85)">
+    <path d="M10 2 L12.5 7.5 L18 7.5 L14 11 L15.5 16.5 L10 13.5 L4.5 16.5 L6 11 L2 7.5 L7.5 7.5 Z" 
+          fill="url(#starGradient)" stroke="#fbbf24" stroke-width="0.5"/>
+  </g>
+  
+  <!-- Progress Arrow -->
+  <g transform="translate(85, 135)">
+    <path d="M5 10 L15 5 L15 8 L25 8 L25 12 L15 12 L15 15 Z" 
+          fill="url(#arrowGradient)" stroke="#10b981" stroke-width="0.5"/>
+  </g>
+  
+  <!-- Gradient Definitions -->
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="backgroundGradient" cx="50%" cy="30%">
+      <stop offset="0%" style="stop-color:#1f2937;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f172a;stop-opacity:1" />
+    </radialGradient>
+    
+    <!-- Border Gradient -->
+    <linearGradient id="borderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Progress Ring Gradient -->
+    <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Inner Circle Gradient -->
+    <radialGradient id="innerGradient" cx="50%" cy="30%">
+      <stop offset="0%" style="stop-color:#374151;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1f2937;stop-opacity:1" />
+    </radialGradient>
+    
+    <!-- Center Target Gradient -->
+    <radialGradient id="centerGradient" cx="50%" cy="30%">
+      <stop offset="0%" style="stop-color:#4f46e5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
+    </radialGradient>
+    
+    <!-- Bullseye Gradient -->
+    <radialGradient id="bullseyeGradient" cx="50%" cy="30%">
+      <stop offset="0%" style="stop-color:#60a5fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </radialGradient>
+    
+    <!-- Flame Gradient -->
+    <linearGradient id="flameGradient" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#f97316;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fbbf24;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Star Gradient -->
+    <radialGradient id="starGradient" cx="50%" cy="30%">
+      <stop offset="0%" style="stop-color:#fbbf24;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:1" />
+    </radialGradient>
+    
+    <!-- Arrow Gradient -->
+    <linearGradient id="arrowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Subtle Glow Effect -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Add subtle glow to the entire logo -->
+  <g filter="url(#glow)">
+    <!-- Company Text (optional - can be removed for icon-only version) -->
+    <text x="120" y="200" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="url(#borderGradient)">
+      GOAL TRACKER
+    </text>
+    <text x="120" y="218" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="normal" fill="#6b7280">
+      PRO
+    </text>
+  </g>
+</svg>
