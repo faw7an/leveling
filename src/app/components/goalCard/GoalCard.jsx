@@ -1,55 +1,78 @@
 import React from "react";
 import TimeFrameSelector from "../timeFrame/TimeFrameSelector";
-import { Brain, Star } from "lucide-react";
+import { Brain, Code, User, BookOpen, Users , Heart ,Dumbbell} from "lucide-react";
 
-function GoalCard({
-  DailyGoal,
-  difficulty,
-  starCount,
-  completedMilestones,
-  outOfMilestones,
-  difficultyColor,
-  progress,
-}) {
+import WeeklyFrame from "../weeklyFrame/WeeklyFrame";
+import DailyFrame from "../dailyFrame/DailyFrame";
+
+function GoalCard({}) {
   return (
     <div>
       <TimeFrameSelector />
       {/* Daily */}
-      <div className="ml-25 m-5 w-300 p-4 bg-gray-800 border border-gray-700 hover:border-gray-600 transition-all duration-300 rounded-lg ">
+     <DailyFrame  
+     goalIcon={< Dumbbell color="white" size={16}/>}
+     goalTitle={"Workout 2 hours"}
+     difficulty={"hard"}
+     starCount={50}
+     streakCount={9}
+     difficultyColor={"text-red-400"}
+     />
 
-      </div>
+      <div className="grid grid-cols-2 w-345">
+        {/* Weekly Frame */}
+        {/* <WeeklyFrame
+          goalIcon={<Heart color="white" size={16} />}
+          goalTitle={"Meditate 5 times a day"}
+          starCount={300}
+          completedMilestones={2}
+          outOfMilestones={3}
+          difficulty={"hard"}
+          difficultyColor={"text-red-400"}
+          bgColor={"bg-orange-500"}
+        />
+        <WeeklyFrame
+          goalIcon={<Code color="white" size={16}/>}
+          goalTitle={"Code 5 hours a day"}
+          starCount={400}
+          completedMilestones={3}
+          outOfMilestones={7}
+          difficulty={"medium"}
+          difficultyColor={"text-orange-400"}
+          bgColor={"bg-purple-500"}
+        />
+         <WeeklyFrame
+          goalIcon={<User color="white" size={16} />}
+          goalTitle={"Write 3 blog posts"}
+          starCount={400}
+          completedMilestones={1}
+          outOfMilestones={5}
+          difficulty={"easy"}
+          difficultyColor={"text-green-400"}
+          bgColor={"bg-green-500"}
+        /> */}
 
-      {/* Weekly Frame */}
-      <div className="ml-25 m-5 w-300 p-4 bg-gray-800 border border-gray-700 hover:border-gray-600 transition-all duration-300 rounded-lg ">
-        <div className="flex justify-between">
-          <div className=" flex gap-2">
-            <div className="bg-orange-500 p-2 h-10 rounded-lg">
-              <Brain color="white" />
-            </div>
-            <div>
-              <p className="font-bold text-lg ml-2">{DailyGoal}</p>
-              <p className="text-gray-400 text-sm m-2">
-                {completedMilestones}/{outOfMilestones}
-              </p>
-            </div>
-          </div>
-          <div className="flex gap-5">
-            <span className={`${difficultyColor} text-sm`}>{difficulty}</span>
-            <div className="flex flex-col gap-2">
-              <div className="flex gap-1">
-              <Star size={16} color="yellow" />
-              <span className="text-yellow-400 text-sm">{starCount}</span>
-              </div>
-              <div className=" text-blue-400">{progress}%</div>
-            </div>
-          </div>
-        </div> 
-        <div className="w-280 mt-2 ml-12 bg-gray-700 h-2 rounded-lg ">  
-          <div
-            className="bg-orange-500 h-2 rounded"
-            style={{ width: `${progress}%` }}
-          ></div>
-        </div>
+        {/* Monthly Frame  */}
+        {/* <WeeklyFrame
+          goalIcon={<BookOpen color="white" size={16} />}
+          goalTitle={"Read 4 Books"}
+          starCount={400}
+          completedMilestones={1}
+          outOfMilestones={4}
+          difficulty={"easy"}
+          difficultyColor={"text-green-400"}
+          bgColor={"bg-green-500"}
+        />
+        <WeeklyFrame
+          goalIcon={<Users color="white" size={16} />}
+          goalTitle={"Network with 10 people"}
+          starCount={200}
+          completedMilestones={7}
+          outOfMilestones={10}
+          difficulty={"medium"}
+          difficultyColor={"text-orange-400"}
+          bgColor={"bg-purple-500"}
+        /> */}
       </div>
     </div>
   );
