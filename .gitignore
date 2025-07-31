@@ -43,5 +43,5 @@ next-env.d.ts
 # my docs 
 prompt.txt
 backend.txt
-gptprompts.txt
+gpt.txt
 nextBE.txt

@@ -1,9 +1,8 @@
-import Image from "next/image";
 import NotificationTab from "./components/notification-tab/Notification";
 import Profile from "./components/profile/Profile";
 import StatCard from "./components/stat-dash/StatCard";
 import { Trophy, Flame } from "lucide-react";
-import ProgressRing from "./progress-ring/ProgressRing";
+import ProgressRing from "./components/progress-ring/ProgressRing";
 import XpBar from "./components/xpBar/XpBar";
 import LevelingMenu from "./components/menu/LevelingMenu";
 
