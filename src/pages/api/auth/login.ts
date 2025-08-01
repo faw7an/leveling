@@ -33,24 +33,25 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
     const user = results.rows[0];
     if(!user){
         console.error("Invalid email or username");
-        return res.status(401).json({message:'Invalid email or username'})
+        return res.status(401).json({message:'Invalid credentials'})
     } 
 
     const comparePass = await bcrypt.compare(pass, user.password);
     
     if(!comparePass){
-        res.status(401).json({message:'Invalid password'});
+      return res.status(401).json({message:'Invalid password'});
     }
     
     const payload = {
-        username : username,
-        password : pass
+        userId: user.id,
+        username : user.username,
+        email : user.email
     }
     
     const secretKey = process.env.SECRET_KEY;
     
     if(!secretKey){
-       return res.status(500).json({message:'invalid secretKey'});
+       return res.status(500).json({message:'Server configuration error'});
     }
     
     const options: SignOptions = {
@@ -58,7 +59,6 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
     };
 
     const token = jwt.sign(payload, secretKey, options);
-    // console.log('Genarated token:',token);
 
     // store jwt as cookie 
     const serializedCookie = serialize('token', token, {
@@ -83,13 +83,19 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
     const testParsed = parse(serializedCookie);
     console.log('Newly set cookie parsed:', testParsed);
     
-    res.status(200).json({
+   return res.status(200).json({
         message: 'Logged in successfully',
-        cookieSet: serializedCookie, // You can send this back to see in response
+        user:{
+          id: user.id,
+          username: user.username,
+          email: user.email
+        },
+        cookieSet: serializedCookie, 
         existingCookies: parsedCookies
     });
 
 } catch (err) {
     console.error("Error:", err);
+    return res.status(500).json({message:'Internal server'})
   };
 };
