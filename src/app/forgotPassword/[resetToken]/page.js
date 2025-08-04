@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import axios from "axios";
 
-export default function forgotPassword({ params }) {
+export default function ForgotPassword({ params }) {
   const { resetToken } = use(params);
   const [formData, setFormData] = useState({
     resetToken: resetToken,
