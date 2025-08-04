@@ -12,9 +12,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import axios from "axios";
-import { useState } from "react";
+import { use, useState } from "react";
+import { useRouter } from "next/navigation";
 
-export default function authPage() {
+export default function login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -22,6 +23,8 @@ export default function authPage() {
     username: "",
     pass: "",
   });
+
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,32 +36,40 @@ export default function authPage() {
     // Api call
     try {
       const response = await axios.post(API_URL, formData);
-      console.log(response);
+      // console.log(response);
       // const data = response.json();
 
       if (response.status === 200) {
         setLoading(false);
-        setSuccess('Login successfully')
-
+        setSuccess("Login successfully");
         setTimeout(() => {
-          setSuccess("");
+          router.push('/')
         }, 1200);
       }
       console.log(success);
-      
     } catch (err) {
       // setError("Error logging in", err);
       // console.error("Error:", err);
-      if(err.response){
-        setError(err.response.data.message || 'Login failed')
-      } else if(err.request){
-        setError('Network error. Please try again');
-      } else{
-        setError('Unexpected error occured');
+      if (err.response) {
+        setError(err.response.data.message || "Login failed");
+      } else if (err.request) {
+        setError("Network error. Please try again");
+      } else {
+        setError("Unexpected error occured");
       }
-      console.error('Error logging in: ',err);
-    } finally{
-       setLoading(false);
+      console.error("Error logging in: ", err);
+      setTimeout(() => {
+        setError("");
+      }, 3200);
+    } finally {
+      setLoading(false);
+
+      setTimeout(() => {
+        setFormData({
+          username: "",
+          pass: "",
+        });
+      }, 3200);
     }
   };
 
@@ -71,7 +82,7 @@ export default function authPage() {
             Enter your email below to login to your account
           </CardDescription>
           <CardAction>
-            <Button variant="link">Sign Up</Button>
+            <Button variant="link" onClick={()=>{router.push('/signUp')}} >Sign Up</Button>
           </CardAction>
         </CardHeader>
         <CardContent>
@@ -81,13 +92,11 @@ export default function authPage() {
                 {error}
               </div>
             )}
-            {
-              success && (
-                <div className="w-full text-sm p-3 mb-2 text-green-700 bg-green-100 border  border-green-300 rounded-md">
-                  {success}
-                </div>
-              )
-            }
+            {success && (
+              <div className="w-full text-sm p-3 mb-2 text-green-700 bg-green-100 border  border-green-300 rounded-md">
+                {success}
+              </div>
+            )}
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
@@ -109,8 +118,8 @@ export default function authPage() {
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                   <a
-                    href="#"
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                    onClick={()=>{router.push('/resetPassword')}}
                   >
                     Forgot your password?
                   </a>
@@ -120,6 +129,7 @@ export default function authPage() {
                   type="password"
                   required
                   value={formData.pass}
+                  placeholder="password"
                   onChange={(e) =>
                     setFormData({ ...formData, pass: e.target.value })
                   }

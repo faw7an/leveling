@@ -46,7 +46,7 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
 
     // random token for email verification
     const token = crypto.randomBytes(32).toString('hex');
-    const tokenExpiration = new Date(Date.now() + 1000*60*10*24);  //10mins
+    const tokenExpiration = new Date(Date.now() + 1000*60*60*24);  
     // Insert in db:
     try {
       const results = await pool.query(`
@@ -59,7 +59,7 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
       await sendEmailVerification(email,name,token,tokenExpiration);
 
       return res.status(201).json({
-        message: "User inserted successfully",
+        message: "User created successfully",
         user: results.rows[0],
       });
     } catch (err) {
