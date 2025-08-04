@@ -37,5 +37,7 @@ export default async function handler(
       console.error(err);
       return res.status(500).json({ message: err });
     }
+  } else{
+    return res.status(405).json({message:'Method not allowed'})
   }
 }
