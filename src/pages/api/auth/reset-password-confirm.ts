@@ -28,36 +28,37 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     if (password !== confirmPassword) {
-      return res.status(400).json({ message: "Password don't match" });
+      return res.status(400).json({ message: "Passwords don't match" });
     }
 
     const saltRounds: number = 10;
     const hashedPass = await bcrypt.hash(password, saltRounds);
-
+    const now = new Date();
+    let userEmail: string = "";
     // fetch email
     try {
-      let userEmail: string ='';
+      const results = resetToken
+        ? await pool.query(`SELECT * FROM users WHERE resettoken=$1`, [
+            resetToken,
+          ])
+        : await pool.query(`SELECT * FROM users WHERE email = $1`, [email]);
 
-      if (resetToken) {
-        const fetchEmail = await pool.query(
-          `SELECT * FROM users WHERE resettoken=$1`,
-          [resetToken]
-        );
-
-        if (fetchEmail.rows.length === 0) {
-          return res.status(400).json({ message: "Invalid token or expired" });
-        }
-        // const email = fetchEmail.rows[0].email;
-
-        userEmail = fetchEmail.rows[0].email;
-      } else if (email) {
-        userEmail = email;
+      const user = results.rows[0];
+      if (!user) {
+        return res
+          .status(400)
+          .json({ message: resetToken ? "Invalid token try to generate a new reset link" : "User not found" });
+      }
+ 
+      if (!user.resettokenexpiry || user.resettokenexpiry <= now) {
+        return res.status(400).json({ message: (!user.resettokenexpiry)?"Please generate a reset token ":"Reset token expired" });
       }
 
-      // when back set email to userEmail in db
+      userEmail = user.email;
+
       try {
-        const response = await pool.query(
-          `UPDATE users SET password = $1 WHERE email = $2`,
+        const update = await pool.query(
+          `UPDATE users SET password = $1, resettoken = NULL, resettokenexpiry = NULL WHERE email = $2`,
           [hashedPass, userEmail]
         );
         return res.status(200).json({ message: "Password has been reset" });
@@ -65,11 +66,57 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         console.error("Error:", error);
         return res
           .status(500)
-          .json({ message: "Error occured when reseting password" });
+          .json({ message: "Error occurred when reseting password" });
       }
-    } catch (error) {}
-    // Update db:
+    } catch (error) {
+      console.error("DB error:", error);
+      return res.status(500).json({
+        message: "Unexpected error occurred when reseting password",
+        error,
+      });
+    }
   } else {
-    return res.status(405).json({message:'Method not allowed'});
+    return res.status(405).json({ message: "Method not allowed" });
   }
 };
+
+// let userEmail: string = "";
+//       let fetchEmail: any = null;
+//       if (resetToken) {
+//         fetchEmail = await pool.query(
+//           `SELECT * FROM users WHERE resettoken=$1`,
+//           [resetToken]
+//         );
+
+//         if (fetchEmail.rows.length === 0) {
+//           return res.status(400).json({ message: "Invalid token or expired" });
+//         }
+//         // const email = fetchEmail.rows[0].email;
+//         userEmail = fetchEmail.rows[0].email;
+//       } else if (email) {
+//         fetchEmail = await pool.query(`SELECT * FROM users WHERE email = $1`, [
+//           email,
+//         ]);
+
+//         if (fetchEmail.rows.length === 0) {
+//           return res.status(400).json({ message: "User not found" });
+//         }
+
+//         if (fetchEmail.rows[0].resettokenexpiry < now) {
+//           return res.status(400).json({ message: "Reset token has expired" });
+//         }
+
+//         userEmail = email;
+//       }
+//   try {
+//     const update = await pool.query(
+//       `UPDATE users SET password = $1, resettoken = NULL, resettokenexpiry = NULL WHERE email = $2`,
+//       [hashedPass, userEmail]
+//     );
+//     return res.status(200).json({ message: "Password has been reset" });
+//   } catch (error) {
+//     console.error("Error:", error);
+//     return res
+//       .status(500)
+//       .json({ message: "Error occured when reseting password" });
+//   }

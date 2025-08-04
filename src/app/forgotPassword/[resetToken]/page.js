@@ -1,5 +1,5 @@
-"use client"
-import { use,useState } from "react";
+"use client";
+import { use, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import axios from "axios";
 
 export default function forgotPassword({ params }) {
-  const {resetToken} = use(params);
+  const { resetToken } = use(params);
   const [formData, setFormData] = useState({
     resetToken: resetToken,
     password: "",
@@ -33,23 +33,23 @@ export default function forgotPassword({ params }) {
       setError("");
       setSuccess("");
       const response = await axios.post(API_URL, formData);
-      setLoading(true);
       setSuccess(response.data.message);
-    } catch (err) {
-      setLoading(false);
-      console.error(err.response?.data);
-      setError(err.response?.data);
-    } finally {
-      setLoading(false);
       setTimeout(() => {
         setFormData({
           resetToken: resetToken,
           password: "",
           confirmPassword: "",
         });
+        setSuccess("");
       }, 3200);
+    } catch (err) {
+      console.error(err.response?.data);
+      setError(err.response?.data.message);
+    } finally {
+      setLoading(false);
     }
   };
+
   return (
     <div className="flex justify-center items-center h-screen">
       <Card className="w-full max-w-sm">
@@ -58,16 +58,16 @@ export default function forgotPassword({ params }) {
           <CardDescription>Enter your new password below</CardDescription>
         </CardHeader>
         <CardContent>
-             {error && (
-              <div className="w-full text-sm p-3 mb-2 text-red-700 bg-red-100 border border-red-300 rounded-md">
-                {error}
-              </div>
-            )}
-            {success && (
-              <div className="w-full text-sm p-3 mb-2 text-green-700 bg-green-100 border  border-green-300 rounded-md">
-                {success}
-              </div>
-            )}
+          {error && (
+            <div className="w-full text-sm p-3 mb-2 text-red-700 bg-red-100 border border-red-300 rounded-md">
+              {error}
+            </div>
+          )}
+          {success && (
+            <div className="w-full text-sm p-3 mb-2 text-green-700 bg-green-100 border  border-green-300 rounded-md">
+              {success}
+            </div>
+          )}
           <div className="flex flex-col gap-4">
             <div className="grid gap-2">
               <Label htmlFor="password">New Password</Label>
@@ -102,7 +102,6 @@ export default function forgotPassword({ params }) {
               />
             </div>
             <Button
-              type="submit"
               className="w-full"
               disabled={!formData.password || !formData.confirmPassword}
               onClick={handleSubmit}
