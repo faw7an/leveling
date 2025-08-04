@@ -15,7 +15,7 @@ import axios from "axios";
 import { use, useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function login() {
+export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
