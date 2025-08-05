@@ -21,3 +21,19 @@ https://nextjs.org/telemetry
  ○ Compiling / ...
  ✓ Compiled / in 2.9s
  HEAD / 200 in 3241ms
+ ⚠ Found a change in next.config.js. Restarting the server to apply the changes...
+   ▲ Next.js 15.4.5 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://172.30.0.2:3000
+   - Experiments (use with caution):
+     ✓ appDir
+
+ ✓ Starting...
+ ⚠ Invalid next.config.js options detected: 
+ ⚠     Unrecognized key(s) in object: 'appDir' at "experimental"
+ ⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+ ✓ Ready in 835ms
+ ○ Compiling / ...
+ ✓ Compiled / in 2.6s
+ HEAD / 200 in 3022ms
+ HEAD / 200 in 76ms
