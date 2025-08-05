@@ -1,0 +1,565 @@
+import React, { useState, useEffect } from 'react';
+import { Calendar, Target, Flame, TrendingUp, CheckCircle, Circle, Plus, Clock, Award, RotateCcw, Shield, Star, Users, Bell, BarChart3, Zap, Trophy, MessageCircle, Settings, ChevronRight, BookOpen, Dumbbell, Code, Brain, Heart, Briefcase, User } from 'lucide-react';
+
+const GoalTracker = () => {
+  const [currentStreak, setCurrentStreak] = useState(12);
+  const [overallProgress, setOverallProgress] = useState(78);
+  const [dailyProgress, setDailyProgress] = useState(85);
+  const [streakBroken, setStreakBroken] = useState(false);
+  const [activeTab, setActiveTab] = useState('daily');
+  const [showAddGoal, setShowAddGoal] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [userLevel, setUserLevel] = useState(7);
+  const [userXP, setUserXP] = useState(2340);
+  const [nextLevelXP, setNextLevelXP] = useState(3000);
+  const [streakShields, setStreakShields] = useState(2);
+  const [activeView, setActiveView] = useState('goals');
+
+  const [timeUntilMidnight, setTimeUntilMidnight] = useState('');
+
+  useEffect(() => {
+    const updateTimer = () => {
+      const now = new Date();
+      const midnight = new Date();
+      midnight.setHours(24, 0, 0, 0);
+      
+      const diff = midnight - now;
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      
+      setTimeUntilMidnight(`${hours}h ${minutes}m`);
+    };
+    
+    updateTimer();
+    const timer = setInterval(updateTimer, 60000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const [goals, setGoals] = useState({
+    monthly: [
+      { id: 1, title: 'Complete 3 Online Courses', progress: 67, total: 3, completed: 2, type: 'learning', difficulty: 'hard', xp: 300 },
+      { id: 2, title: 'Read 4 Books', progress: 50, total: 4, completed: 2, type: 'reading', difficulty: 'medium', xp: 200 },
+      { id: 3, title: 'Exercise 20 Days', progress: 75, total: 20, completed: 15, type: 'fitness', difficulty: 'hard', xp: 400 },
+      { id: 4, title: 'Network with 10 People', progress: 30, total: 10, completed: 3, type: 'networking', difficulty: 'medium', xp: 250 }
+    ],
+    weekly: [
+      { id: 1, title: 'Meditate 5 Days', progress: 80, total: 5, completed: 4, type: 'wellness', difficulty: 'easy', xp: 100 },
+      { id: 2, title: 'Code 4 Hours Daily', progress: 57, total: 7, completed: 4, type: 'coding', difficulty: 'hard', xp: 350 },
+      { id: 3, title: 'Write 3 Blog Posts', progress: 66, total: 3, completed: 2, type: 'writing', difficulty: 'medium', xp: 150 }
+    ],
+    daily: [
+      { id: 1, title: 'Morning Workout', completed: true, streak: 12, type: 'fitness', difficulty: 'medium', xp: 50 },
+      { id: 2, title: 'Read 30 Minutes', completed: true, streak: 8, type: 'reading', difficulty: 'easy', xp: 25 },
+      { id: 3, title: 'Code Review', completed: false, streak: 5, type: 'coding', difficulty: 'hard', xp: 75 },
+      { id: 4, title: 'Journal Writing', completed: true, streak: 15, type: 'writing', difficulty: 'easy', xp: 30 },
+      { id: 5, title: 'Drink 8 Glasses Water', completed: false, streak: 3, type: 'wellness', difficulty: 'easy', xp: 20 }
+    ]
+  });
+
+  const [achievements] = useState([
+    { id: 1, title: 'Week Warrior', description: 'Complete 7 days straight', icon: '🏆', unlocked: true, date: 'Dec 15' },
+    { id: 2, title: 'Code Master', description: 'Code for 100 hours', icon: '💻', unlocked: true, date: 'Dec 20' },
+    { id: 3, title: 'Fitness Freak', description: '30 workout sessions', icon: '💪', unlocked: false, progress: 85 },
+    { id: 4, title: 'Bookworm', description: 'Read 12 books', icon: '📚', unlocked: false, progress: 33 }
+  ]);
+
+  const [notifications] = useState([
+    { id: 1, type: 'deadline', message: 'Set tomorrow\'s goals before midnight', time: '2h left', urgent: true },
+    { id: 2, type: 'achievement', message: 'You\'re close to unlocking "Fitness Freak"', time: '1h ago', urgent: false },
+    { id: 3, type: 'streak', message: 'Your reading streak is at risk!', time: '3h ago', urgent: true },
+    { id: 4, type: 'social', message: 'Sarah completed her weekly challenge', time: '5h ago', urgent: false }
+  ]);
+
+  const [analytics] = useState({
+    weeklyCompletion: 82,
+    bestDay: 'Monday',
+    bestTime: '8:00 AM',
+    totalGoalsCompleted: 156,
+    averageStreak: 8.5,
+    weeklyTrend: [65, 78, 82, 75, 88, 85, 82]
+  });
+
+  const [socialFeed] = useState([
+    { id: 1, user: 'Sarah Chen', action: 'completed weekly challenge', goal: 'Fitness Goals', time: '2h ago', avatar: '👩‍💼' },
+    { id: 2, user: 'Mike Johnson', action: 'achieved 30-day streak', goal: 'Coding Practice', time: '4h ago', avatar: '👨‍💻' },
+    { id: 3, user: 'Emma Wilson', action: 'unlocked achievement', goal: 'Bookworm Badge', time: '6h ago', avatar: '👩‍🎓' }
+  ]);
+
+  const getTypeColor = (type: string) => {
+    const colors: Record<string, string> = {
+      fitness: 'bg-red-500',
+      reading: 'bg-blue-500',
+      coding: 'bg-green-500',
+      wellness: 'bg-purple-500',
+      learning: 'bg-orange-500',
+      networking: 'bg-pink-500',
+      writing: 'bg-indigo-500'
+    };
+    return colors[type] || 'bg-gray-500';
+  };
+
+  const getTypeIcon = (type: string) => {
+    const icons: Record<string, JSX.Element> = {
+      fitness: <Dumbbell size={16} />,
+      reading: <BookOpen size={16} />,
+      coding: <Code size={16} />,
+      wellness: <Heart size={16} />,
+      learning: <Brain size={16} />,
+      networking: <Briefcase size={16} />,
+      writing: <User size={16} />
+    };
+    return icons[type] || <Target size={16} />;
+  };
+
+  const getDifficultyColor = (difficulty: string) => {
+    const colors: Record<string, string> = {
+      easy: 'text-green-400',
+      medium: 'text-yellow-400',
+      hard: 'text-red-400'
+    };
+    return colors[difficulty] || 'text-gray-400';
+  };
+
+  const toggleDailyGoal = (id: number) => {
+    setGoals(prev => ({
+      ...prev,
+      daily: prev.daily.map(goal => 
+        goal.id === id ? { ...goal, completed: !goal.completed } : goal
+      )
+    }));
+  };
+
+  const restoreStreak = () => {
+    if (streakShields > 0) {
+      setStreakShields(prev => prev - 1);
+      setStreakBroken(false);
+    }
+  };
+
+  const ProgressRing = ({ progress, size = 120, strokeWidth = 8 }: { progress: number; size?: number; strokeWidth?: number }) => {
+    const radius = (size - strokeWidth) / 2;
+    const circumference = radius * 2 * Math.PI;
+    const offset = circumference - (progress / 100) * circumference;
+    
+    return (
+      <div className="relative">
+        <svg width={size} height={size} className="transform -rotate-90">
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={radius}
+            stroke="currentColor"
+            strokeWidth={strokeWidth}
+            fill="transparent"
+            className="text-gray-700"
+          />
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={radius}
+            stroke="currentColor"
+            strokeWidth={strokeWidth}
+            fill="transparent"
+            strokeDasharray={circumference}
+            strokeDashoffset={offset}
+            className="text-blue-500 transition-all duration-500 ease-in-out"
+            strokeLinecap="round"
+          />
+        </svg>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center">
+            <div className="text-2xl font-bold text-white">{progress}%</div>
+            <div className="text-xs text-gray-400">Progress</div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const XPBar = () => (
+    <div className="bg-gray-800 rounded-2xl p-4 border border-gray-700">
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-2">
+          <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">
+            {userLevel}
+          </div>
+          <span className="text-white font-medium">Level {userLevel}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <Shield className="text-blue-400" size={16} />
+          <span className="text-blue-400 text-sm">{streakShields}</span>
+        </div>
+      </div>
+      <div className="w-full bg-gray-700 rounded-full h-2 mb-2">
+        <div 
+          className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-500"
+          style={{ width: `${(userXP / nextLevelXP) * 100}%` }}
+        />
+      </div>
+      <div className="flex justify-between text-xs text-gray-400">
+        <span>{userXP} XP</span>
+        <span>{nextLevelXP} XP</span>
+      </div>
+    </div>
+  );
+
+  const StatCard = ({ icon, title, value, subtitle, color = "bg-gray-800", trend }: { 
+    icon: JSX.Element; 
+    title: string; 
+    value: string | number; 
+    subtitle: string; 
+    color?: string; 
+    trend?: number 
+  }) => (
+    <div className={`${color} rounded-2xl p-4 border border-gray-700 hover:border-gray-600 transition-all duration-300`}>
+      <div className="flex items-center justify-between mb-2">
+        <div className="p-2 bg-gray-700 rounded-lg">
+          {icon}
+        </div>
+        {trend && (
+          <div className="flex items-center gap-1 text-green-400">
+            <TrendingUp size={16} />
+            <span className="text-xs">+{trend}%</span>
+          </div>
+        )}
+      </div>
+      <div className="text-xl font-bold text-white mb-1">{value}</div>
+      <div className="text-sm text-gray-400">{subtitle}</div>
+    </div>
+  );
+
+  const GoalCard = ({ goal, type, onToggle }: { 
+    goal: any; 
+    type: string; 
+    onToggle: (id: number) => void 
+  }) => (
+    <div className="bg-gray-800 rounded-2xl p-4 border border-gray-700 hover:border-gray-600 transition-all duration-300 group">
+      <div className="flex items-start gap-3">
+        <div className="flex-shrink-0 mt-1">
+          <div className={`p-2 rounded-lg ${getTypeColor(goal.type)} text-white`}>
+            {getTypeIcon(goal.type)}
+          </div>
+        </div>
+        <div className="flex-1">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-white font-medium group-hover:text-blue-400 transition-colors">{goal.title}</h3>
+            <div className="flex items-center gap-2">
+              <div className={`px-2 py-1 rounded-full text-xs ${getDifficultyColor(goal.difficulty)}`}>
+                {goal.difficulty}
+              </div>
+              <div className="flex items-center gap-1 text-yellow-400">
+                <Star size={12} />
+                <span className="text-xs">{goal.xp}</span>
+              </div>
+            </div>
+          </div>
+          
+          {type === 'daily' ? (
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => onToggle(goal.id)}
+                  className="text-blue-400 hover:text-blue-300 transition-colors"
+                >
+                  {goal.completed ? <CheckCircle size={20} /> : <Circle size={20} />}
+                </button>
+                <span className="text-sm text-gray-400">
+                  {goal.completed ? 'Completed' : 'Pending'}
+                </span>
+              </div>
+              <div className="flex items-center gap-1 text-orange-400">
+                <Flame size={16} />
+                <span className="text-sm font-medium">{goal.streak}</span>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-400">{goal.completed}/{goal.total}</span>
+                <span className="text-blue-400">{goal.progress}%</span>
+              </div>
+              <div className="w-full bg-gray-700 rounded-full h-2">
+                <div 
+                  className={`h-2 rounded-full transition-all duration-300 ${getTypeColor(goal.type)}`}
+                  style={{ width: `${goal.progress}%` }}
+                />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
+  const AchievementCard = ({ achievement }: { achievement: any }) => (
+    <div className={`bg-gray-800 rounded-2xl p-4 border ${achievement.unlocked ? 'border-yellow-500' : 'border-gray-700'} transition-all duration-300`}>
+      <div className="flex items-center gap-3">
+        <div className={`text-2xl ${achievement.unlocked ? 'grayscale-0' : 'grayscale'}`}>
+          {achievement.icon}
+        </div>
+        <div className="flex-1">
+          <h3 className={`font-medium ${achievement.unlocked ? 'text-yellow-400' : 'text-white'}`}>
+            {achievement.title}
+          </h3>
+          <p className="text-sm text-gray-400 mb-2">{achievement.description}</p>
+          {achievement.unlocked ? (
+            <span className="text-xs text-yellow-400">Unlocked {achievement.date}</span>
+          ) : (
+            <div className="w-full bg-gray-700 rounded-full h-1">
+              <div 
+                className="bg-yellow-400 h-1 rounded-full transition-all duration-300"
+                style={{ width: `${achievement.progress}%` }}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
+  const NotificationCard = ({ notification }: { notification: any }) => (
+    <div className={`bg-gray-800 rounded-lg p-3 border-l-4 ${notification.urgent ? 'border-red-500' : 'border-blue-500'}`}>
+      <div className="flex items-start justify-between">
+        <div className="flex-1">
+          <p className="text-white text-sm">{notification.message}</p>
+          <span className="text-xs text-gray-400">{notification.time}</span>
+        </div>
+        <div className={`w-2 h-2 rounded-full ${notification.urgent ? 'bg-red-500' : 'bg-blue-500'}`} />
+      </div>
+    </div>
+  );
+
+  const SocialCard = ({ item }: { item: any }) => (
+    <div className="bg-gray-800 rounded-lg p-3">
+      <div className="flex items-center gap-3">
+        <span className="text-2xl">{item.avatar}</span>
+        <div className="flex-1">
+          <p className="text-white text-sm">
+            <span className="font-medium">{item.user}</span> {item.action}
+          </p>
+          <p className="text-blue-400 text-xs">{item.goal}</p>
+          <span className="text-xs text-gray-400">{item.time}</span>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderMainContent = () => {
+    switch (activeView) {
+      case 'goals':
+        return (
+          <div className="space-y-6">
+            {/* Navigation Tabs */}
+            <div className="flex gap-2 overflow-x-auto pb-2">
+              {['daily', 'weekly', 'monthly'].map(tab => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-4 py-2 rounded-xl font-medium transition-all duration-300 whitespace-nowrap ${
+                    activeTab === tab 
+                      ? 'bg-blue-600 text-white shadow-lg' 
+                      : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
+                  }`}
+                >
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </button>
+              ))}
+            </div>
+
+            {/* Goals Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              {goals[activeTab as keyof typeof goals].map(goal => (
+                <GoalCard 
+                  key={goal.id} 
+                  goal={goal} 
+                  type={activeTab}
+                  onToggle={toggleDailyGoal}
+                />
+              ))}
+            </div>
+          </div>
+        );
+
+      case 'achievements':
+        return (
+          <div className="space-y-6">
+            <h2 className="text-2xl font-bold text-white">Achievements</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {achievements.map(achievement => (
+                <AchievementCard key={achievement.id} achievement={achievement} />
+              ))}
+            </div>
+          </div>
+        );
+
+      case 'analytics':
+        return (
+          <div className="space-y-6">
+            <h2 className="text-2xl font-bold text-white">Analytics</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <StatCard
+                icon={<BarChart3 className="text-blue-400" size={20} />}
+                title="Weekly Completion"
+                value={`${analytics.weeklyCompletion}%`}
+                subtitle="Average completion rate"
+                trend={5}
+              />
+              <StatCard
+                icon={<Calendar className="text-green-400" size={20} />}
+                title="Best Day"
+                value={analytics.bestDay}
+                subtitle="Most productive day"
+              />
+              <StatCard
+                icon={<Clock className="text-purple-400" size={20} />}
+                title="Best Time"
+                value={analytics.bestTime}
+                subtitle="Peak performance"
+              />
+            </div>
+          </div>
+        );
+
+      case 'social':
+        return (
+          <div className="space-y-6">
+            <h2 className="text-2xl font-bold text-white">Social Feed</h2>
+            <div className="space-y-3">
+              {socialFeed.map(item => (
+                <SocialCard key={item.id} item={item} />
+              ))}
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+      <div className="max-w-7xl mx-auto p-4">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              Goal Tracker Pro
+            </h1>
+            <p className="text-gray-400 text-sm">Level up your productivity</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="text-right">
+              <div className="text-sm text-gray-400">Next deadline</div>
+              <div className="text-red-400 font-medium">{timeUntilMidnight}</div>
+            </div>
+            <button
+              onClick={() => setShowNotifications(!showNotifications)}
+              className="relative p-2 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
+            >
+              <Bell size={20} />
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full" />
+            </button>
+          </div>
+        </div>
+
+        {/* Notifications Panel */}
+        {showNotifications && (
+          <div className="fixed top-20 right-4 w-80 bg-gray-900 rounded-2xl border border-gray-700 p-4 z-50 max-h-96 overflow-y-auto">
+            <h3 className="text-white font-medium mb-3">Notifications</h3>
+            <div className="space-y-2">
+              {notifications.map(notification => (
+                <NotificationCard key={notification.id} notification={notification} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Main Stats Dashboard */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div className="bg-gray-800 rounded-2xl p-4 border border-gray-700 flex items-center justify-center">
+            <ProgressRing progress={overallProgress} size={100} />
+          </div>
+          
+          <StatCard
+            icon={<Flame className="text-orange-400" size={20} />}
+            title="Current Streak"
+            value={`${currentStreak} days`}
+            subtitle="Personal best: 25 days"
+          />
+          
+          <StatCard
+            icon={<Trophy className="text-yellow-400" size={20} />}
+            title="Goals Completed"
+            value={analytics.totalGoalsCompleted}
+            subtitle="This month: 43"
+          />
+
+          <XPBar />
+        </div>
+
+        {/* Streak Restoration */}
+        {streakBroken && (
+          <div className="bg-red-900/30 border border-red-700 rounded-2xl p-4 mb-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <RotateCcw className="text-red-400" size={20} />
+                <div>
+                  <h3 className="text-red-400 font-medium">Streak Broken</h3>
+                  <p className="text-red-300 text-sm">Use a streak shield or complete 2x goals to restore</p>
+                </div>
+              </div>
+              <button
+                onClick={restoreStreak}
+                disabled={streakShields === 0}
+                className="px-4 py-2 bg-red-600 hover:bg-red-700 disabled:opacity-50 rounded-lg text-white text-sm font-medium transition-colors"
+              >
+                Use Shield ({streakShields})
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Bottom Navigation */}
+        <div className="flex justify-center mb-6">
+          <div className="bg-gray-800 rounded-2xl p-2 flex gap-2">
+            {[
+              { key: 'goals', icon: Target, label: 'Goals' },
+              { key: 'achievements', icon: Trophy, label: 'Achievements' },
+              { key: 'analytics', icon: BarChart3, label: 'Analytics' },
+              { key: 'social', icon: Users, label: 'Social' }
+            ].map(({ key, icon: Icon, label }) => (
+              <button
+                key={key}
+                onClick={() => setActiveView(key)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-300 ${
+                  activeView === key 
+                    ? 'bg-blue-600 text-white' 
+                    : 'text-gray-400 hover:text-white hover:bg-gray-700'
+                }`}
+              >
+                <Icon size={18} />
+                <span className="hidden sm:inline">{label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Main Content */}
+        {renderMainContent()}
+
+        {/* Floating Action Button */}
+        <div className="fixed bottom-6 right-6">
+          <button
+            onClick={() => setShowAddGoal(true)}
+            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white p-4 rounded-full shadow-lg transition-all duration-300 hover:scale-105"
+          >
+            <Plus size={24} />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default GoalTracker;
