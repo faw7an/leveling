@@ -15,6 +15,31 @@
   }
 } */
 
+
+.glass-liquid-effect {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+  background: linear-gradient(
+    45deg,
+     rgba(255,255,255,0.1),
+      rgba(255,255,255,0.05),
+       rgba(255,255,255,0.15)
+  );
+  background-size: 400% 400%;
+  /* animation:liquidMove 8s ease-in-out infinite; */
+}
+
+@keyframes liquidMove{
+  0%,100% {
+    background-position: 0% 50%;
+  } 
+  50%{
+    background-position: 100% 50%;
+  }
+}
+
+
 /* body {
 } */
 
@@ -231,3 +256,6 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+
