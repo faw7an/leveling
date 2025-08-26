@@ -1,6 +1,6 @@
 "use client";
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import {
   ChevronRight,
   Instagram,
@@ -8,20 +8,26 @@ import {
   Linkedin,
   ArrowRight,
 } from "lucide-react";
-import Image from 'next/image';
+import FeaturesCard from "./components/features/FeaturesCard";
+import HowItWorksCard from "./components/howWorks/HowItWorksCard";
+import Testimonials from "./components/testimonials/Testimonials";
+
+import Image from "next/image";
 export default function LandingPage() {
+  const [activeCard, setActiveCard] = useState("features");
   return (
     <div>
       <div className="flex gap-2 justify-between items-center">
         {/* Logo */}
-        <div className="m-5 mt-0"> 
-          <Image className="rounded-4xl"
-          src = '/s6.png'
-          alt="Logo"
-          width={100}
-          height={100}
+        <div className="m-5 mt-0">
+          <Image
+            className="rounded-4xl"
+            src="/s6.png"
+            alt="Logo"
+            width={100}
+            height={100}
           />
-           </div>
+        </div>
 
         {/* nav */}
         <div className="flex gap-5 glass-liquid-effect rounded-4xl p-2 m-5 mt-0 text-gray-300 w-[30%] justify-around py-3 ">
@@ -40,15 +46,15 @@ export default function LandingPage() {
         </div>
       </div>
       {/* Main */}
-      <div className="flex flex-col items-center justify-center min-h-[70vh] px-4">
+      <div className="flex animate-fadeIn flex-col items-center justify-center min-h-[70vh] px-4">
         <div className="glass-liquid-effect rounded-3xl p-12 max-w-4xl text-center">
           <h1 className="text-6xl font-bold text-white mb-6">
             <span className="bg-gradient-to-r from-blue-500 to-pink-500 bg-clip-text text-transparent px-3">
-              Revolutionize 
+              Revolutionize
             </span>
-            Your Dream Goal with 
+            Your Dream Goal with
             <span className="bg-gradient-to-r to-blue-500 from-pink-500 bg-clip-text text-transparent px-3">
-            Solo Leveling
+              Solo Leveling
             </span>
           </h1>
           <p className="text-xl text-white/80 mb-8">
@@ -62,10 +68,46 @@ export default function LandingPage() {
           </button>
         </div>
       </div>
+      <div className="flex justify-center items-center">
+        <div className="flex gap-5 glass-liquid-effect rounded-4xl p-2 m-5 text-gray-300 w-[30%] justify-around py-3">
+          <div
+            className="hover:text-white cursor-pointer transition-colors"
+            onClick={() => setActiveCard("features")}
+          >
+            Features
+          </div>
+          <div
+            className="hover:text-white cursor-pointer transition-colors"
+            onClick={() => setActiveCard("how-it-works")}
+          >
+            How it works
+          </div>
+          <div
+            className="hover:text-white cursor-pointer transition-colors"
+            onClick={() => setActiveCard("testimonials")}
+          >
+            Testimonials
+          </div>
+        </div>
+      </div>
+      <div className="flex justify-center items-center mb-10">
+        <div className="transtion-all duration-500 ease-in-out">
+          {activeCard === "features" && (
+            <div className="animate-fadeIn">
+            <FeaturesCard />
+            </div>)}
+          {activeCard === "how-it-works" && (
+            <div className="animate-fadeIn">
+              <HowItWorksCard />
+            </div>)}
+          {activeCard === "testimonials" && 
+          (<div className="animate-fadeIn">
+          <Testimonials />
+            </div>
+          )}
+        </div>
+      </div>
       {/* getInTouch */}
-      {/* <div>
-        <button> Get Started </button>
-      </div> */}
     </div>
   );
 }
