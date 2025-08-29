@@ -11,10 +11,13 @@ import {
 import FeaturesCard from "./components/features/FeaturesCard";
 import HowItWorksCard from "./components/howWorks/HowItWorksCard";
 import Testimonials from "./components/testimonials/Testimonials";
-
+import { useRouter } from "next/navigation";
 import Image from "next/image";
+
+
 export default function LandingPage() {
   const [activeCard, setActiveCard] = useState("features");
+  const router = useRouter();
   return (
     <div>
       <div className="flex gap-2 justify-between items-center">
@@ -37,7 +40,9 @@ export default function LandingPage() {
         </div>
         {/* nav2 */}
         <div className="flex gap-4 m-2  mt-[-12px]">
-          <button className="glass-liquid-effect rounded-xl px-6 py-0 h-10 ">
+          <button className="glass-liquid-effect rounded-xl px-6 py-0 h-10" onClick={()=>{
+            router.push('/login')
+          }}>
             Login
           </button>
           <button className="bg-blue-700 hover:bg-blue-500 transition duration-300 ease-in-out rounded-xl px-4 py-0 h-10 ">
