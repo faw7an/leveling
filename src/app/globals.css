@@ -3,17 +3,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* :root {
-
-@theme inline {
-
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-
-  }
-} */
 
 
 .glass-liquid-effect {
@@ -28,6 +17,27 @@
   );
   background-size: 400% 400%;
   /* animation:liquidMove 8s ease-in-out infinite; */
+}
+html, body {
+  height: 100%;
+  background: linear-gradient(to bottom right, #111827, #1f2937, #111827);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Prevent horizontal scroll */
+body {
+  overflow-x: hidden;
+}
+
+/* Ensure mobile viewport */
+@media (max-width: 768px) {
+  body {
+    min-height: 100vh;
+    min-height: 100dvh; /* For newer browsers */
+  }
 }
 
 @keyframes liquidMove{
@@ -54,8 +64,6 @@
   animation: fadeIn 1s ease-out forwards;
 }
 
-/* body {
-} */
 
 @theme inline {
 

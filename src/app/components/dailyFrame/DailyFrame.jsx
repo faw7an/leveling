@@ -14,13 +14,13 @@ function DailyFrame({
   const [toggle, setToggle] = useState(false);
   return (
     <div>
-      <div className="ml-25 mt-0 m-5 flex justify-between w-160 p-4 bg-gray-800 border border-gray-700 hover:border-gray-600 transition-all duration-300 rounded-2xl group">
+      <div className="ml-15 lg:ml-25 mt-0 m-5 flex justify-between w-75 lg:w-160 p-4 bg-gray-800 border border-gray-700 hover:border-gray-600 transition-all duration-300 rounded-2xl group">
         <div className="flex flex-row gap-2">
           <div className="h-8 bg-blue-400 rounded-lg p-2 w-8 m-1">
             {goalIcon}
           </div>
           <div className="flex flex-col">
-            <p className="group-hover:text-blue-400 transition-all duration-300">
+            <p className="group-hover:text-blue-400 text-sm md:text-lg lg:text-lg  transition-all duration-300">
               {goalTitle}
             </p>
             <div className="flex flex-row gap-2 mt-2">

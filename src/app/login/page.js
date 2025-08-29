@@ -43,7 +43,7 @@ export default function Login() {
         setLoading(false);
         setSuccess("Login successfully");
         setTimeout(() => {
-          router.push('/')
+          router.push('/home')
         }, 1200);
       }
       console.log(success);
