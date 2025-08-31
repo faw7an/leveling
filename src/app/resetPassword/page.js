@@ -22,18 +22,18 @@ export default function ResetPassword() {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
+  const backToLogin = () => router.push("/login")
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
 
-    const API_URL = "/api/auth/reset-password";
+    const API_URL = "/api/auth/send-reset-email";
 
     try {
-      const response = await axios.post(API_URL, {email});
-      console.log(response.data.message);
+      const response = await axios.post(API_URL, { email });
+      console.log(response.data);
       setSuccess(response.data.message);
-
     } catch (err) {
       console.error(err.response?.data.message);
       setError(err.response?.data.message);
@@ -41,7 +41,7 @@ export default function ResetPassword() {
       setEmail("");
       setTimeout(() => {
         setError("");
-        setSuccess('');
+        setSuccess("");
       }, 3200);
     }
   };
@@ -58,13 +58,13 @@ export default function ResetPassword() {
         <CardContent>
           <form>
             {error && (
-              <div className="w-full text-sm text-green-700 bg-green-100 border border-green-300 rounded-md p-3 mb-2">
+              <div className="w-full text-sm text-red-700 bg-red-100 border border-red-300 rounded-md p-3 mb-2">
                 {error}
               </div>
             )}
 
             {success && (
-              <div className="w-full text-sm text-red-700 bg-red-100 border border-red-300 rounded-md p-3 mb-2">
+              <div className="w-full text-sm text-green-700 bg-green-100 border border-green-300 rounded-md p-3 mb-2">
                 {success}
               </div>
             )}
@@ -86,13 +86,17 @@ export default function ResetPassword() {
           </form>
         </CardContent>
         <CardFooter className="flex-col gap-2">
-          <Button type="submit" className="w-full" onClick={handleSubmit} disabled={!email}>
+          <Button
+           className="w-full"
+            onClick={handleSubmit}
+            disabled={!email}
+          >
             Send Reset Link
           </Button>
           <Button
             variant="outline"
             className="w-full"
-            onClick={() => router.push("/login")}
+            onClick={backToLogin}
           >
             Back to Login
           </Button>

@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import pool from "@/lib/db";
 
+
+//This api used to verifyb email after user registered 
 export default async function GET(req: NextApiRequest, res: NextApiResponse) {
   const { token } = req.query;
 
@@ -43,6 +45,7 @@ export default async function GET(req: NextApiRequest, res: NextApiResponse) {
     console.error("Error:", err);
     return res
       .status(500)
-      .json({ message: "An error occurred during email verification" });
+      .json({ message: "Internal server error" });
   }
 }
+ 
