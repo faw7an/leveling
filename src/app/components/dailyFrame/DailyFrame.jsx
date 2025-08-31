@@ -14,7 +14,7 @@ function DailyFrame({
   const [toggle, setToggle] = useState(false);
   return (
     <div>
-      <div className="ml-15 lg:ml-25 mt-0 m-5 flex justify-between w-75 lg:w-160 p-4 bg-gray-800 border border-gray-700 hover:border-gray-600 transition-all duration-300 rounded-2xl group">
+      <div className="flex flex-1 justify-between gap-5 lg:w-115 p-4 bg-gray-800 border border-gray-700 hover:border-gray-600 transition-all duration-300 rounded-2xl group">
         <div className="flex flex-row gap-2">
           <div className="h-8 bg-blue-400 rounded-lg p-2 w-8 m-1">
             {goalIcon}
@@ -60,3 +60,5 @@ function DailyFrame({
 }
 
 export default DailyFrame;
+
+// w-75 sm:w-120 md:w-160 lg:w-160

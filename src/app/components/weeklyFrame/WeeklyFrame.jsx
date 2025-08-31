@@ -14,9 +14,9 @@ function WeeklyFrame({
   const progress = Math.round((completedMilestones / outOfMilestones) * 100);
 
   return (
-    <div className="ml-25 mt-0 m-5 W-70 lg:w-160 p-4 bg-gray-800 border border-gray-700 hover:border-gray-600 transition-all duration-300 rounded-2xl ">
+    <div className="mt-0 w-75 sm:w-120 lg:w-115 p-4 bg-gray-800 border border-gray-700 hover:border-gray-600 transition-all duration-300 rounded-2xl ">
       <div className="flex justify-between">
-        <div className=" flex gap-2">
+        <div className=" flex items-center gap-2">
           <div className={`${bgColor} p-2 h-8 rounded-lg`}>{goalIcon}</div>
           <div>
             <p className="text-sm ml-2">{goalTitle}</p>
@@ -26,7 +26,7 @@ function WeeklyFrame({
           </div>
         </div>
         <div className="flex gap-5">
-          <span className={`${difficultyColor} text-sm`}>{difficulty}</span>
+          <span className={`${difficultyColor} text-sm ml-5` }>{difficulty}</span>
           <div className="flex flex-col gap-2">
             <div className="flex gap-1">
               <Star size={16} color="yellow" />
