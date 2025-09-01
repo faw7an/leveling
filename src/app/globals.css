@@ -3,20 +3,67 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* :root {
 
-@theme inline {
 
+.glass-liquid-effect {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+  background: linear-gradient(
+    45deg,
+     rgba(255,255,255,0.1),
+      rgba(255,255,255,0.05),
+       rgba(255,255,255,0.15)
+  );
+  background-size: 400% 400%;
+  /* animation:liquidMove 8s ease-in-out infinite; */
+}
+html, body {
+  height: 100%;
+  background: linear-gradient(to bottom right, #111827, #1f2937, #111827);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
+* {
+  box-sizing: border-box;
+}
 
+/* Prevent horizontal scroll */
+body {
+  overflow-x: hidden;
+}
+
+/* Ensure mobile viewport */
+@media (max-width: 768px) {
+  body {
+    min-height: 100vh;
+    min-height: 100dvh; /* For newer browsers */
   }
-} */
+}
 
-/* body {
-} */
+@keyframes liquidMove{
+  0%,100% {
+    background-position: 0% 50%;
+  } 
+  50%{
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s ease-out forwards;
+}
+
 
 @theme inline {
 
@@ -231,3 +278,6 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+

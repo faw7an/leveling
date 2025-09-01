@@ -23,7 +23,7 @@ export default function ForgotPassword({ params }) {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const API_URL = "/api/auth/reset-password-confirm";
+  const API_URL = "/api/auth/update-password";
 
   // Api Call
   const handleSubmit = async (e) => {

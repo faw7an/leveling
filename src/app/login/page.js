@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../components/ui/button";
 import {
   Card,
   CardAction,
@@ -8,11 +8,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "../../components/ui/card";
+import { Input } from "../../components/ui/input";
+import { Label } from "../../components/ui/label";
 import axios from "axios";
-import { use, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
@@ -43,7 +43,7 @@ export default function Login() {
         setLoading(false);
         setSuccess("Login successfully");
         setTimeout(() => {
-          router.push('/')
+          router.push('/home')
         }, 1200);
       }
       console.log(success);
