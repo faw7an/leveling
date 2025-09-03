@@ -46,3 +46,5 @@ backend.txt
 gpt.txt
 nextBE.txt
 cursor
+db-sql
+db-schema
