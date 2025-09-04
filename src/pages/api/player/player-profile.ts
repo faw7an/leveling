@@ -1,13 +1,15 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import pool from "@/lib/db";
+import { withAuth } from "@/lib/auth-middleware";
 
-export default async function handler(
+async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const user_id = req.user!.userId;
+    console.log(user_id);
   if (req.method === "POST") {
-    const { user_id }: { user_id: string } = req.body;
-    console.log(req.body);
+    
    
     if (!user_id) {
       return res.status(400).json({ message: "User Id is required" });
@@ -25,7 +27,7 @@ export default async function handler(
     // check if player exists already
     const existingPlayer = await pool.query(`SELECT * FROM players WHERE user_id = $1`,[user_id]);
     if (existingPlayer.rows[0]){
-        return res.status(409).json({message:'PLayer already exists'});
+        return res.status(409).json({message:'Player already exists'});
     }
     // Fetch players from users
     
@@ -46,8 +48,6 @@ export default async function handler(
   }
 
   if (req.method === "DELETE") {
-    const { user_id }: { user_id: string } = req.body;
-
     if (!user_id) {
     return res.status(400).json({ message: "User ID is required" });
     }
@@ -72,3 +72,5 @@ export default async function handler(
   }
   return res.status(405).json({message:'Method not allowed'});
 }
+
+export default withAuth(handler);

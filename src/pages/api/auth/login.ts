@@ -71,18 +71,6 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
     
     res.setHeader('Set-Cookie', serializedCookie);
     
-    // To check what you're setting:
-    console.log('Serialized cookie:', serializedCookie);
-    
-    // To parse existing cookies from request:
-    const existingCookies = req.headers.cookie || '';
-    const parsedCookies = parse(existingCookies);
-    console.log('Existing cookies:', parsedCookies);
-    
-    // To parse the cookie you just set (for testing):
-    const testParsed = parse(serializedCookie);
-    console.log('Newly set cookie parsed:', testParsed);
-    
    return res.status(200).json({
         message: 'Logged in successfully',
         user:{
@@ -90,8 +78,7 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
           username: user.username,
           email: user.email
         },
-        cookieSet: serializedCookie, 
-        existingCookies: parsedCookies
+        serializedCookie
     });
 
 } catch (err) {
