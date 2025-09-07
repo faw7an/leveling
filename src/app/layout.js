@@ -12,7 +12,7 @@ export const metadata = {
     title: "Solo Leveling",
   },
   icons: {
-    icon: "/icons/manifest-icon-192.png",
+    icon: "/icons/manifest-icon-192.maskable.png",
     apple: "/icons/apple-icon-180.png",
   },
   viewport: {
