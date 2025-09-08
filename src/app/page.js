@@ -42,7 +42,7 @@ export default function LandingPage() {
           <div className="m-5 mt-0">
             <Image
               className="rounded-4xl"
-              src="/s6.png"
+              src="/icons/logo.png"
               alt="Logo"
               width={100}
               height={100}
