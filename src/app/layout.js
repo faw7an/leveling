@@ -17,8 +17,8 @@ export const metadata = {
     ],
   },
   icons: {
-    icon: "/icons/icon-192x192.png",
-    apple: "/icons/icon-96x96.png", // This adds the apple-touch-icon
+    icon: "/icons/icon-192.png",
+    apple: "/icons/apple-touch-icon.png", // This adds the apple-touch-icon
   },
   other: {
     "apple-mobile-web-app-status-bar": "#1f2937", 
