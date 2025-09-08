@@ -9,9 +9,19 @@ export const metadata = {
     capable: true,
     statusBarStyle: "black-translucent",
     title: "Solo Leveling",
+    startupImage: [
+      {
+        url: "/icons/icon-96x96.png",
+        media: "(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)",
+      },
+    ],
   },
   icons: {
-    icon: "/icons/icon-192x192.png",
+    icon: "/icons/icon-192.png",
+    apple: "/icons/apple-touch-icon.png", // This adds the apple-touch-icon
+  },
+  other: {
+    "apple-mobile-web-app-status-bar": "#1f2937", 
   },
 };
 
