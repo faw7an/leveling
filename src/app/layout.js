@@ -5,21 +5,22 @@ export const metadata = {
   title: "Solo Leveling",
   description: "Improve your skills with Solo Leveling",
   manifest: "/manifest.json",
-  themeColor: "#1f2937",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
     title: "Solo Leveling",
   },
   icons: {
-    icon: "/icons/icon-96x96.png",
-    apple: "/icons/icon-96x96.png",
+    icon: "/icons/icon-192x192.png",
+    apple: "/icons/icon-180x180.png",
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    viewportFit: "cover"
-  }
+};
+
+export const viewport = {
+  themeColor: "#1f2937",
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover"
 };
 
 export default function RootLayout({ children }) {
@@ -32,4 +33,3 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
-
