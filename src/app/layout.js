@@ -12,8 +12,8 @@ export const metadata = {
     title: "Solo Leveling",
   },
   icons: {
-    icon: "/icons/manifest-icon-192.maskable.png",
-    apple: "/icons/apple-icon-180.png",
+    icon: "/icons/icon-96x96.png",
+    apple: "/icons/icon-96x96.png",
   },
   viewport: {
     width: "device-width",
@@ -32,3 +32,4 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+
