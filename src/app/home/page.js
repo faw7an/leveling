@@ -5,6 +5,7 @@ import { Trophy, Flame } from "lucide-react";
 import ProgressRing from "../components/progress-ring/ProgressRing";
 import XpBar from "../components/xpBar/XpBar";
 import LevelingMenu from "../components/menu/LevelingMenu";
+import CreateGoal from "../components/createGoal/CreateGoal";
 
 export default function Home() {
   return (
@@ -50,6 +51,7 @@ export default function Home() {
           </div>
           <LevelingMenu />
         </div>
+        <CreateGoal />
       </main>
       <footer className="w-full mt-8 py-6 bg-gradient-to-t from-gray-900 to-transparent">
         <div className="max-w-4xl mx-auto px-4">
