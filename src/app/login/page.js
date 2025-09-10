@@ -86,7 +86,12 @@ export default function Login() {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} onKeyDown={(e)=>{
+            if(e.key === 'Enter' && !e.shiftKey){
+              e.preventDefault();
+              handleSubmit(e);
+            }
+          }}>
             {error && (
               <div className="w-full text-sm p-3 mb-2 text-red-700 bg-red-100 border border-red-300 rounded-md">
                 {error}
@@ -140,7 +145,6 @@ export default function Login() {
         </CardContent>
         <CardFooter className="flex-col gap-2">
           <Button
-            type="submit"
             className="w-full"
             onClick={handleSubmit}
             disabled={loading}
