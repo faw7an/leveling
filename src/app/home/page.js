@@ -1,3 +1,4 @@
+"use client";
 import NotificationTab from "../components/notification-tab/Notification";
 import Profile from "../components/profile/Profile";
 import StatCard from "../components/stat-dash/StatCard";
@@ -6,8 +7,12 @@ import ProgressRing from "../components/progress-ring/ProgressRing";
 import XpBar from "../components/xpBar/XpBar";
 import LevelingMenu from "../components/menu/LevelingMenu";
 import CreateGoal from "../components/createGoal/CreateGoal";
+import Portal from "../components/portal-helper/Portal";
+import { useState } from "react";
 
 export default function Home() {
+  const [modalOpen, setModal] = useState(false);
+
   return (
     <div className="min-h-screen flex flex-col">
       <header className="w-full my-5 flex gap-5 items-center justify-end">
@@ -51,7 +56,19 @@ export default function Home() {
           </div>
           <LevelingMenu />
         </div>
-        <CreateGoal />
+        <Portal>
+          {modalOpen && (
+            <div
+              className="fixed inset-0 z-100 flex justify-center items-center bg-black/50"
+              onClick={() => {
+                setModal(!modalOpen);
+              }}
+            >
+              <CreateGoal />
+            </div>
+          )}
+        </Portal>
+        
       </main>
       <footer className="w-full mt-8 py-6 bg-gradient-to-t from-gray-900 to-transparent">
         <div className="max-w-4xl mx-auto px-4">

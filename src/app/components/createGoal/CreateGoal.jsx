@@ -67,7 +67,7 @@ function CreateGoal() {
         (field) => field && field.trim() !== ""
       ).length;
 
-      return `${Math.round((filledFields / fields.length) * 100)} %`;
+      return `${Math.round((filledFields / fields.length) * 100)}%`;
   }
 
   const calculateMakeGoalProgress = () => {
@@ -137,7 +137,7 @@ const getCurrentProgress = ()=>{
 
   return (
     <div>
-      <Card className="w-75 z-100">
+      <Card className="w-75">
         <CardHeader className="flex flex-col justify-center items-center">
           <CardAction className="flex text-sm gap-3 mb-5 p-2 border rounded-2xl">
             <button
