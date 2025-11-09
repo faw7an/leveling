@@ -38,7 +38,10 @@ export default function RootLayout({ children }) {
       lang="en"
       className="min-h-screen overflow-x-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 "
     >
-      <body className="text-white">{children}</body>
+      <body className="text-white">
+        {children}
+        <div id="portal-root"></div>
+        </body>
     </html>
   );
 }

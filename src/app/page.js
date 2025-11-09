@@ -146,7 +146,7 @@ export default function LandingPage() {
               Dream, chase and achieve effortlessly
             </p>
             <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 md:px-8 py-2 md:py-4 rounded-full font-semibold transition-all hover:scale-105 group">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3" onClick={handleSignUp} >
                 Get Started
                 <ChevronRight className="transition-transform group-hover:translate-x-3" />
               </div>
