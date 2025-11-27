@@ -5,7 +5,7 @@ import AchievementMenu from "../achievementMenu/AchievementMenu";
 import { useState } from "react";
 import Analytics from "../analyticsMenu/Analytics";
 import Social from "../socialsMenu/Social";
-import TimeFrameSelector from "../goalMenu/GoalMenu";
+import TimeFrameSelector from "../timeFrame/TimeFrameSel";
 
 function TabButton({ icon: Icon, label, isActive, onClick }) {
   return (

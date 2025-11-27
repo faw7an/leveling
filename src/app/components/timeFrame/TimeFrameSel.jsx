@@ -9,9 +9,9 @@ function TimeFrameSelector() {
   const [activeTab, setActiveTab] = useState("daily");
   return (
     <div>
-      <div className="text-gray-400 text-sm lg:text-lg md:text-lg flex justify-center items-center gap-3 mx-auto my-5 max-w-md rounded-lg">
+      <div className="text-gray-400 text-sm  flex justify-center items-center gap-3 mx-auto my-5 max-w-md rounded-lg">
         <div
-          className="cursor-pointer bg-gray-800 p-3 rounded-lg"
+          className="cursor-pointer hover:text-gray-300 bg-gray-800 p-3 rounded-lg"
           onClick={() => {
             setActiveTab("daily");
           }}
@@ -19,7 +19,7 @@ function TimeFrameSelector() {
           Daily
         </div>
         <div
-          className="cursor-pointer bg-gray-800 p-3 rounded-lg"
+          className="cursor-pointer hover:text-gray-300 bg-gray-800 p-3 rounded-lg"
           onClick={() => {
             setActiveTab("weekly");
           }}
@@ -27,7 +27,7 @@ function TimeFrameSelector() {
           Weekly
         </div>
         <div
-          className="cursor-pointer bg-gray-800 p-3 rounded-lg"
+          className="cursor-pointer hover:text-gray-300 bg-gray-800 p-3 rounded-lg"
           onClick={() => {
             setActiveTab("monthly");
           }}

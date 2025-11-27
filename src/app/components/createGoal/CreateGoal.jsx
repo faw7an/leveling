@@ -137,7 +137,7 @@ const getCurrentProgress = ()=>{
 
   return (
     <div>
-      <Card className="w-75">
+      <Card className="w-75 z-100">
         <CardHeader className="flex flex-col justify-center items-center">
           <CardAction className="flex text-sm gap-3 mb-5 p-2 border rounded-2xl">
             <button

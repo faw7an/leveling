@@ -3,22 +3,33 @@
 
 @custom-variant dark (&:is(.dark *));
 
-
+@keyframes blob {
+  0% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+  50% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+  }
+  100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+}
 
 .glass-liquid-effect {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   background: linear-gradient(
     45deg,
-     rgba(255,255,255,0.1),
-      rgba(255,255,255,0.05),
-       rgba(255,255,255,0.15)
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.15)
   );
   background-size: 400% 400%;
   /* animation:liquidMove 8s ease-in-out infinite; */
 }
-html, body {
+html,
+body {
   height: 100%;
   background: linear-gradient(to bottom right, #111827, #1f2937, #111827);
 }
@@ -40,11 +51,12 @@ body {
   }
 }
 
-@keyframes liquidMove{
-  0%,100% {
+@keyframes liquidMove {
+  0%,
+  100% {
     background-position: 0% 50%;
-  } 
-  50%{
+  }
+  50% {
     background-position: 100% 50%;
   }
 }
@@ -64,9 +76,7 @@ body {
   animation: fadeIn 1s ease-out forwards;
 }
 
-
 @theme inline {
-
   --radius-sm: calc(var(--radius) - 4px);
 
   --radius-md: calc(var(--radius) - 2px);
@@ -139,7 +149,6 @@ body {
 }
 
 :root {
-
   --radius: 0.625rem;
 
   --card: oklch(1 0 0);
@@ -206,7 +215,6 @@ body {
 }
 
 .dark {
-
   --background: oklch(0.13 0.028 261.692);
 
   --foreground: oklch(0.985 0.002 247.839);
@@ -278,6 +286,3 @@ body {
     @apply bg-background text-foreground;
   }
 }
-
-
-
