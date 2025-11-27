@@ -4,8 +4,8 @@ import { BookOpen, ChevronRight, Target } from "lucide-react";
 function Guide() {
   return (
     <div className="grid grid-rows-2 lg:grid-cols-2 gap-5">
-      <div className="bg-gray-800 border border-gray-700 rounded-2xl">
-        <div className="font-bold text-xl  flex gap-2 border-b p-5 border-gray-700  items-center">
+      <div className="bg-gray-800 border border-gray-700 rounded-2xl ">
+        <div className="font-bold text-xl  flex gap-2 border-b p-5 border-gray-700  items-center overflow-hidden">
           <BookOpen size={24} className="text-blue-400" />
           <h1>Quick Start Guide</h1>
         </div>
