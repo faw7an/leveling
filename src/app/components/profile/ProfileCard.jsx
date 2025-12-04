@@ -1,8 +1,9 @@
 import React from "react";
-import { Camera,Bell, LogOut, Lock, ChevronRight, Star, Shield, User } from "lucide-react";
+import { Trophy, Flame, Camera, Bell, LogOut, Lock, ChevronRight, Star, Shield, User } from "lucide-react";
 import { createAvatar } from "@dicebear/core";
 import { initials } from "@dicebear/collection";
 import Image from "next/image";
+import Footer from "../footer/FooterContent";
 
 function ProfileCard() {
   const avatar = createAvatar(initials, {
@@ -13,7 +14,7 @@ function ProfileCard() {
   });
 
   return (
-    <div className="">
+    <div className="max-h-screen overflow-y-auto hide-scrollbar p-4">
       <div className="m-5">
         <h4 className="font-bold text-2xl">Profile</h4>
         <p className="text-gray-400">Manage your account and preferences</p>
@@ -135,7 +136,9 @@ function ProfileCard() {
 
         </div>
       </div>
-
+     <footer className="mt-8 mb-3">
+      <Footer />
+     </footer>
     </div>
   );
 }

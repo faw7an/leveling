@@ -3,7 +3,7 @@ import { Trophy, Flame, Plus } from "lucide-react";
 
 function Footer() {
   return (
-   <footer className="w-full mt-8 py-6 bg-gradient-to-t from-gray-900 to-transparent">
+  
         <div className="max-w-4xl mx-auto px-4">
           <div className="flex flex-col items-center gap-3">
             <div className="flex items-center gap-3">
@@ -19,7 +19,7 @@ function Footer() {
             </div>
           </div>
         </div>
-      </footer>
+
   )
 }
 

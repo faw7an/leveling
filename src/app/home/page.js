@@ -10,7 +10,7 @@ import StatsDash from "../components/statsDash/StatsDash";
 import Hero from "../components/hero/Hero";
 import Guide from "../components/goalGuide/Guide";
 import ProfileCard from "../components/profile/ProfileCard";
-import Footer from "../components/footer/Footer";
+import Footer from "../components/footer/FooterContent";
 
 export default function Home() {
   const [modalOpen, setModal] = useState(false);
@@ -84,7 +84,9 @@ export default function Home() {
         </button>
         {/* <ProfileCard />  */}
       </main>
-      <Footer />
+     <footer className="w-full mt-8 py-6 bg-gradient-to-t from-gray-900 to-transparent">
+        <Footer />
+      </footer>
     </div>
   );
 }

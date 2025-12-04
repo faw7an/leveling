@@ -43,6 +43,12 @@ body {
   overflow-x: hidden;
 }
 
+/* hide scroll bar in profile */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+
 /* Ensure mobile viewport */
 @media (max-width: 768px) {
   body {
