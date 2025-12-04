@@ -136,6 +136,7 @@ function ProfileCard() {
 
         </div>
       </div>
+      
      <footer className="mt-8 mb-3">
       <Footer />
      </footer>
