@@ -10,22 +10,22 @@ function Guide() {
           <h1>Quick Start Guide</h1>
         </div>
         <div className="p-5 flex flex-col gap-4  ">
-          <div className="flex gap-4 group cursor-pointer">
+          <div className="flex gap-4 group cursor-pointer justify-center items-center">
             <div className="bg-blue-700 rounded-full w-8 h-8 font-bold flex justify-center items-center flex-shrink-0">
               1
             </div>
             <div className="flex-1">
-              <p className="lg:text-lg text-gray-400 font-semibold mb-1">
+              <p className="lg:text-lg text-white font-semibold mb-1">
                 Create Your First Goal
               </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-400">
                 Set a daily, weekly, or monthly goal to get started
               </p>
             </div>
             <ChevronRight size={20} className="text-gray-600" />
           </div>
 
-          <div className="flex gap-4 group cursor-pointer">
+          <div className="flex gap-4 group cursor-pointer justify-center items-center">
             <div className="bg-gray-600 rounded-full w-8 h-8 font-bold flex justify-center items-center flex-shrink-0">
               2
             </div>
@@ -40,7 +40,7 @@ function Guide() {
             <ChevronRight size={20} className="text-gray-600" />
           </div>
 
-          <div className="flex gap-4 group cursor-pointer">
+          <div className="flex gap-4 group cursor-pointer justify-center items-center">
             <div className="bg-gray-600 rounded-full w-8 h-8 font-bold flex justify-center items-center flex-shrink-0">
               3
             </div>

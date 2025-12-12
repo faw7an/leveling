@@ -44,7 +44,7 @@ export default function Login() {
         setSuccess("Login successfully");
         setTimeout(() => {
           router.push('/home')
-        }, 1200);
+        }, 1000);
       }
       console.log(success);
     } catch (err) {
