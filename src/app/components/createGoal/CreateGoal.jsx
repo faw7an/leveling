@@ -13,7 +13,7 @@ import { Label } from "../../../components/ui/label";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 
-function CreateGoal() {
+function CreateGoal({onSuccessDream, onSuccessGoal}) {
   const [activeTab, setActiveTab] = useState("dreamGoal");
   const [loading, setLoading] = useState(false);
   const [errorDream, setDreamError] = useState("");
@@ -56,8 +56,8 @@ function CreateGoal() {
 
       if (response.status === 200 || response.status === 201) {
         setDreamSuccess("Dream created successfully");
-
         setTimeout(() => {
+          onSuccessDream?.(); 
           setDreamSuccess("");
         }, 1200);
         // console.log("dream created successfully");

@@ -12,24 +12,44 @@ import Guide from "../components/goalGuide/Guide";
 import ProfileCard from "../components/profile/ProfileCard";
 import Footer from "../components/footer/FooterContent";
 import axios from "axios";
+import LoadingOverlay from "../components/Loader/LoaderOverlay";
 
 export default function Home() {
   const [modalOpen, setModal] = useState(false);
   const [profileModalOpen, setProfileModalOpen] = useState(false);
   const [profileData, setProfileData] = useState(null);
+  const [showTransition, setShowTransition] = useState(false);
+  const [loading, setLoading] = useState(true);
 
+  const fetchProfile = async () => {
+    try {
+      const response = await axios.get("/api/auth/profile");
+      setProfileData(response.data);
+      // console.log("ress ", response.data);
+    } catch (err) {
+      console.error("Error fetching profile: ", err);
+    } finally{
+      setLoading(false);
+    //  setTimeout(()=>{
+    //  },1000)
+    }
+  };
+  
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const response = await axios.get("/api/auth/profile");
-        setProfileData(response.data);
-        console.log("ress ", response.data);
-      } catch (err) {
-        console.error("Error fetching profile: ", err);
-      }
-    };
     fetchProfile();
   }, []);
+
+  useEffect(() => {
+  if (!loading && profileData.isPlayer) {
+    setShowTransition(true);
+    const timeout = setTimeout(() => setShowTransition(false), 600);
+    return () => clearTimeout(timeout);
+  }
+}, [profileData, loading]);
+
+const handleCreationSuccess = ()=>{
+  fetchProfile();
+}
   return (
     <div className="min-h-screen flex flex-col lg:w-full">
       <header className="w-full my-5 flex gap-5 items-center justify-end ">
@@ -45,20 +65,29 @@ export default function Home() {
       </header>
       <main className="flex-1 flex flex-col justify-center items-center w-full">
         <div className="flex flex-col items-center max-w-6xl mx-auto px-4">
-          {/* <p className="text-gray-400 text-lg lg:text-xl mb-6">
-            Level up your Productivity
-          </p> */}
 
           {/* Stats */}
-          {/* <StatsDash /> */}
 
-          <Hero onCreateVision ={ ()=>{setModal(true)}} />
-          <Guide />
+            {loading ? null : profileData?.isPlayer ? (
+            <div className="animate-fadeIn">
+              <p className="text-gray-400 text-lg flex justify-center mb-6">
+                Level up your Productivity
+              </p>
+              <StatsDash />
+              <LevelingMenu />
+            </div>
+          ) : (
+            <div className={showTransition?"animate-fadeOut":"animate-fadeIn"}>
+              <Hero onCreateVision={() => setModal(true)} />
+              <Guide />
+            </div>
+          )}
 
-          {/* <LevelingMenu /> */}
         </div>
 
         <Portal>
+          {/* loader */}
+         {/* <LoadingOverlay show = {loading}/> */}
           {/* Create goal modal */}
           {modalOpen && (
             <div
@@ -68,7 +97,7 @@ export default function Home() {
               }}
             >
               <div onClick={(e) => e.stopPropagation()}>
-                <CreateGoal />
+                <CreateGoal onSuccessDream = {handleCreationSuccess} />
               </div>
             </div>
           )}

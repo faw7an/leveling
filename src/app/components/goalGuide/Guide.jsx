@@ -60,7 +60,7 @@ function Guide() {
       {/* Get started with goals */}
 
       <div className="bg-gray-800 border border-gray-700 rounded-2xl">
-        <div className="border-b border-gray-700 p-4">
+        <div className="border-b border-gray-700 px-4 p-2.5">
           <h1 className="font-bold text-lg">Your Goals</h1>
           <p className="text-sm text-gray-400 ">
             Create your first goal to get started

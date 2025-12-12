@@ -14,6 +14,8 @@ import { Label } from "../../components/ui/label";
 import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Portal from "../components/portal-helper/Portal";
+import LoaderOverlay from "../components/Loader/LoaderOverlay";
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
@@ -40,13 +42,13 @@ export default function Login() {
       // const data = response.json();
 
       if (response.status === 200) {
-        setLoading(false);
+        // setLoading(false);
         setSuccess("Login successfully");
         setTimeout(() => {
           router.push('/home')
-        }, 1000);
+        }, 300);
       }
-      console.log(success);
+      // console.log(success);
     } catch (err) {
       // setError("Error logging in", err);
       // console.error("Error:", err);
@@ -58,18 +60,16 @@ export default function Login() {
         setError("Unexpected error occured");
       }
       console.error("Error logging in: ", err);
-      setTimeout(() => {
-        setError("");
-      }, 3200);
     } finally {
-      setLoading(false);
-
+      
       setTimeout(() => {
         setFormData({
           username: "",
           pass: "",
         });
-      }, 3200);
+        setError("");
+        setLoading(false);
+      }, 1200);
     }
   };
 
@@ -85,6 +85,9 @@ export default function Login() {
             <Button variant="link" onClick={()=>{router.push('/signUp')}} >Sign Up</Button>
           </CardAction>
         </CardHeader>
+        <Portal>
+          <LoaderOverlay show={loading}/>
+        </Portal>
         <CardContent>
           <form onSubmit={handleSubmit} onKeyDown={(e)=>{
             if(e.key === 'Enter' && !e.shiftKey){

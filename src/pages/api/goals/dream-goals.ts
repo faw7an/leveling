@@ -50,39 +50,42 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         userId,
       ]);
 
-      actualPlayerId = results.rows[0].id;
-      if (!actualPlayerId) {
-        console.log("Player not found, creating player");
-
-        if (!userId) {
-          return res
-            .status(400)
-            .json({ message: "Player not found and userId not provided" });
-        }
-
-        // Check if user id is valid
-        const checkUserId = await pool.query(
-          `SELECT id FROM users WHERE id=$1`,
-          [userId]
-        );
-
-        if (checkUserId.rows.length === 0) {
-          return res.status(404).json({ message: "User not found" });
-        }
-
-        const response = await pool.query(
-          `
-                    INSERT INTO players(user_id) 
-                    VALUES($1) RETURNING id`,
-          [userId]
-        );
-        const player_id = response.rows[0].id;
-
-        // update actual id
-         actualPlayerId = player_id;
+      if (results.rows.length > 0) {
+       actualPlayerId = results.rows[0].id;
+       console.log("Actual player",actualPlayerId);
       } else {
-        console.log("Player was found");
-      }
+         console.log("Player not found, creating player");
+         if (!userId) {
+           return res
+             .status(400)
+             .json({ message: "Player not found and userId not provided" });
+         }
+  
+         // Check if user id is valid
+         const checkUserId = await pool.query(
+           `SELECT id FROM users WHERE id=$1`,
+           [userId]
+         );
+  
+         if (checkUserId.rows.length === 0) {
+           return res.status(404).json({ message: "User not found" });
+         }
+         
+         //  Creating new player
+         const response = await pool.query(
+           `
+                     INSERT INTO players(user_id) 
+                     VALUES($1) RETURNING id`,
+           [userId]
+         );
+         const player_id = response.rows[0].id;
+  
+         // update actual id
+          actualPlayerId = player_id;
+       }
+        // else {
+        // console.log("Player was found");
+      // }
 
       await pool.query(
         ` INSERT INTO dream_goals(player_id,title,description,category,target_duration_months,is_public,start_date,target_completion_date) 
