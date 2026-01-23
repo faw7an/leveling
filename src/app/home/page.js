@@ -68,7 +68,7 @@ const handleCreationSuccess = ()=>{
 
           {/* Stats */}
 
-            {loading ? null : !isPlayer ? (
+            {loading ? null : isPlayer ? (
             <div className="animate-fadeIn">
               <p className="text-gray-400 text-lg flex justify-center mb-6">
                 Level up your Productivity
