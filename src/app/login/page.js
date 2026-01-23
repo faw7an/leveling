@@ -44,9 +44,8 @@ export default function Login() {
       if (response.status === 200) {
         // setLoading(false);
         setSuccess("Login successfully");
-        setTimeout(() => {
-          router.push('/home')
-        }, 300);
+        router.push('/home')
+        
       }
       // console.log(success);
     } catch (err) {

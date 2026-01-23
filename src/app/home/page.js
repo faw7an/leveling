@@ -20,8 +20,9 @@ export default function Home() {
   const [profileData, setProfileData] = useState(null);
   const [showTransition, setShowTransition] = useState(false);
   const [loading, setLoading] = useState(true);
-
+  const isPlayer = Boolean(profileData?.isPlayer);
   const fetchProfile = async () => {
+   
     try {
       const response = await axios.get("/api/auth/profile");
       setProfileData(response.data);
@@ -30,8 +31,7 @@ export default function Home() {
       console.error("Error fetching profile: ", err);
     } finally{
       setLoading(false);
-    //  setTimeout(()=>{
-    //  },1000)
+    
     }
   };
   
@@ -68,7 +68,7 @@ const handleCreationSuccess = ()=>{
 
           {/* Stats */}
 
-            {loading ? null : profileData?.isPlayer ? (
+            {loading ? null : !isPlayer ? (
             <div className="animate-fadeIn">
               <p className="text-gray-400 text-lg flex justify-center mb-6">
                 Level up your Productivity
