@@ -5,47 +5,89 @@ import { Trophy, Flame, Plus } from "lucide-react";
 import LevelingMenu from "../components/menu/LevelingMenu";
 import CreateGoal from "../components/createGoal/CreateGoal";
 import Portal from "../components/portal-helper/Portal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import StatsDash from "../components/statsDash/StatsDash";
 import Hero from "../components/hero/Hero";
 import Guide from "../components/goalGuide/Guide";
 import ProfileCard from "../components/profile/ProfileCard";
 import Footer from "../components/footer/FooterContent";
+import axios from "axios";
+import LoadingOverlay from "../components/Loader/LoaderOverlay";
 
 export default function Home() {
   const [modalOpen, setModal] = useState(false);
   const [profileModalOpen, setProfileModalOpen] = useState(false);
+  const [profileData, setProfileData] = useState(null);
+  const [showTransition, setShowTransition] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const isPlayer = Boolean(profileData?.isPlayer);
+  const fetchProfile = async () => {
+   
+    try {
+      const response = await axios.get("/api/auth/profile");
+      setProfileData(response.data);
+      // console.log("ress ", response.data);
+    } catch (err) {
+      console.error("Error fetching profile: ", err);
+    } finally{
+      setLoading(false);
+    
+    }
+  };
+  
+  useEffect(() => {
+    fetchProfile();
+  }, []);
 
+  useEffect(() => {
+  if (!loading && profileData.isPlayer) {
+    setShowTransition(true);
+    const timeout = setTimeout(() => setShowTransition(false), 600);
+    return () => clearTimeout(timeout);
+  }
+}, [profileData, loading]);
+
+const handleCreationSuccess = ()=>{
+  fetchProfile();
+}
   return (
     <div className="min-h-screen flex flex-col lg:w-full">
       <header className="w-full my-5 flex gap-5 items-center justify-end ">
         <NotificationTab />
-       <div onClick={()=>{
+        <div
+          onClick={() => {
             setProfileModalOpen(true);
-            console.log("clicked  ")
-          
+            console.log("clicked  ");
           }}
-      >
-        <Profile  />
-
-       </div>
+        >
+          <Profile />
+        </div>
       </header>
       <main className="flex-1 flex flex-col justify-center items-center w-full">
         <div className="flex flex-col items-center max-w-6xl mx-auto px-4">
-          {/* <p className="text-gray-400 text-lg lg:text-xl mb-6">
-            Level up your Productivity
-          </p> */}
 
           {/* Stats */}
-          {/* <StatsDash /> */}
 
-          <Hero />
-          <Guide />
+            {loading ? null : !isPlayer ? (
+            <div className="animate-fadeIn">
+              <p className="text-gray-400 text-lg flex justify-center mb-6">
+                Level up your Productivity
+              </p>
+              <StatsDash />
+              <LevelingMenu />
+            </div>
+          ) : (
+            <div className={showTransition?"animate-fadeOut":"animate-fadeIn"}>
+              <Hero onCreateVision={() => setModal(true)} />
+              <Guide />
+            </div>
+          )}
 
-          {/* <LevelingMenu /> */}
         </div>
 
         <Portal>
+          {/* loader */}
+         {/* <LoadingOverlay show = {loading}/> */}
           {/* Create goal modal */}
           {modalOpen && (
             <div
@@ -55,20 +97,29 @@ export default function Home() {
               }}
             >
               <div onClick={(e) => e.stopPropagation()}>
-                <CreateGoal />
+                <CreateGoal onSuccessDream = {handleCreationSuccess} />
               </div>
             </div>
           )}
 
           {/* Profile Modal */}
-          {profileModalOpen && (
-            <div className="fixed inset-0 z-50 flex justify-center items-center bg-black/95"
-              onClick={()=>{setProfileModalOpen(false)}}
+          {profileModalOpen && profileData && (
+            <div
+              className="fixed inset-0 z-50 flex justify-center items-center bg-black/95"
+              onClick={() => {
+                setProfileModalOpen(false);
+              }}
             >
-              <div 
-              onClick={(e)=>{e.stopPropagation()}}
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
               >
-                <ProfileCard />
+                <ProfileCard
+                  user={profileData.user}
+                  player={profileData.player}
+                  isPlayer={profileData.isPlayer}
+                />
               </div>
             </div>
           )}
@@ -84,7 +135,7 @@ export default function Home() {
         </button>
         {/* <ProfileCard />  */}
       </main>
-     <footer className="w-full mt-8 py-6 bg-gradient-to-t from-gray-900 to-transparent">
+      <footer className="w-full mt-8 py-6 bg-gradient-to-t from-gray-900 to-transparent">
         <Footer />
       </footer>
     </div>

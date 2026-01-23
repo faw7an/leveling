@@ -4,24 +4,24 @@ import { withAuth } from "@/lib/auth-middleware";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
-    userId,
-    playerId,
+    // userId,
+    // playerId,
     title,
     description,
     category,
     duration,
     isPublic,
-    startDate,
+    // startDate,
     targetDate,
   }: {
-    userId?: string;
-    playerId: string;
+    // userId?: string;
+    // playerId: string;
     title: string;
     description: string;
     category: string;
     duration: number;
     isPublic: boolean;
-    startDate: Date;
+    // startDate: Date;
     targetDate: Date;
   } = req.body;
 
@@ -30,52 +30,62 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     !description?.trim() ||
     !category?.trim() ||
     !duration ||
-    !startDate ||
+    // !startDate ||
     !targetDate
   ) {
     return res.status(400).json({ message: "All fields required" });
   }
+
+  // grabbing necesities
+  const startDate = new Date().toISOString().split("T")[0];
+  const userId = req.user?.userId;
+
+
   if (req.method === "POST") {
     try {
-      let actualPlayerId = playerId;
+      let actualPlayerId: any;
 
       //Check if playerId exists
-      const results = await pool.query(`SELECT id FROM players WHERE id=$1`, [
-        playerId,
+      const results = await pool.query(`SELECT id FROM players WHERE user_id=$1`, [
+        userId,
       ]);
 
-      if (results.rows.length === 0) {
-        console.log("Player not found, creating player");
-
-        if (!userId) {
-          return res
-            .status(400)
-            .json({ message: "Player not found and userId not provided" });
-        }
-
-        // Check if user id is valid
-        const checkUserId = await pool.query(
-          `SELECT id FROM users WHERE id=$1`,
-          [userId]
-        );
-
-        if (checkUserId.rows.length === 0) {
-          return res.status(404).json({ message: "User not found" });
-        }
-
-        const response = await pool.query(
-          `
-                    INSERT INTO players(user_id) 
-                    VALUES($1) RETURNING id`,
-          [userId]
-        );
-        const player_id = response.rows[0].id;
-
-        // update actual id
-        actualPlayerId = player_id;
+      if (results.rows.length > 0) {
+       actualPlayerId = results.rows[0].id;
+       console.log("Actual player",actualPlayerId);
       } else {
-        console.log("Player was found");
-      }
+         console.log("Player not found, creating player");
+         if (!userId) {
+           return res
+             .status(400)
+             .json({ message: "Player not found and userId not provided" });
+         }
+  
+         // Check if user id is valid
+         const checkUserId = await pool.query(
+           `SELECT id FROM users WHERE id=$1`,
+           [userId]
+         );
+  
+         if (checkUserId.rows.length === 0) {
+           return res.status(404).json({ message: "User not found" });
+         }
+         
+         //  Creating new player
+         const response = await pool.query(
+           `
+                     INSERT INTO players(user_id) 
+                     VALUES($1) RETURNING id`,
+           [userId]
+         );
+         const player_id = response.rows[0].id;
+  
+         // update actual id
+          actualPlayerId = player_id;
+       }
+        // else {
+        // console.log("Player was found");
+      // }
 
       await pool.query(
         ` INSERT INTO dream_goals(player_id,title,description,category,target_duration_months,is_public,start_date,target_completion_date) 
@@ -94,7 +104,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       );
       return res.status(201).json({ message: "Dream created successfully" });
     } catch (error) {
-      console.error("Error creating dream goal", error);
+      console.error("Backend error creating dream goal:", error);
       return res.status(500).json({ message: "Internal server error" });
     }
   } else {

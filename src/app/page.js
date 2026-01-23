@@ -65,7 +65,7 @@ export default function LandingPage() {
           {/* Desktop Auth btns */}
           <div className="hidden lg:flex gap-4 m-2 mr-5 mt-[-12px]">
             <button
-              className="glass-liquid-effect rounded-xl px-6 py-0 h-10"
+              className="glass-liquid-effect text-gray-400 hover:text-gray-100 transition-all ease-in-out rounded-xl px-6 py-0 h-10"
               onClick={handleLogin}
             >
               Login

@@ -7,23 +7,89 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "../../../components/ui/card";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
 
-function CreateGoal() {
+function CreateGoal({onSuccessDream, onSuccessGoal}) {
   const [activeTab, setActiveTab] = useState("dreamGoal");
+  const [loading, setLoading] = useState(false);
+  const [errorDream, setDreamError] = useState("");
+  const [errorGoal, setGoalError] = useState("");
+  const [successDream, setDreamSuccess] = useState("");
+  const [successGoal, setGoalSuccess] = useState("");
+  const [step, setStep] = useState(1);
+  const [dreamProgress, setDreamProgress] = useState("0%");
+  const [goalProgress, setGoalProgress] = useState("0%");
 
+  // Mock data for existing dream goals - replace with actual API call
+  const [dreamGoals, setDreamGoals] = useState([
+    { id: 1, title: "Learn Full Stack Development" },
+    { id: 2, title: "Run a Marathon" },
+    { id: 3, title: "Learn a New Language" },
+  ]);
+
+  // dream goal
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     category: "",
     duration: "",
-    targetDate: "",
     isPublic: false,
+    targetDate: "",
   });
+
+  // POST dream goal to db
+  const handleSubmitDream = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setDreamError("");
+    setDreamSuccess("");
+
+    const API_URL = "/api/goals/dream-goals";
+    console.log(formData);
+    try {
+      const response = await axios.post(API_URL, formData);
+      // console.log(response.data);
+
+      if (response.status === 200 || response.status === 201) {
+        setDreamSuccess("Dream created successfully");
+        setTimeout(() => {
+          onSuccessDream?.(); 
+          setDreamSuccess("");
+        }, 1200);
+        // console.log("dream created successfully");
+      }
+    } catch (err) {
+      if (err.response) {
+        setDreamError(err.response.data.message || "Error creating dream");
+      } else if (err.request) {
+        setDreamError("Network error. Please try again");
+      } else {
+        setDreamError("Unexpected error occured");
+      }
+      setTimeout(() => {
+        setDreamError("");
+      }, 1200);
+      console.error("Error when creating dream", err);
+    } finally {
+      setLoading(false);
+      //  setDreamSuccess("");
+      //  setDreamError("");
+      setTimeout(() => {
+        setFormData({
+        title: "",
+        description: "",
+        category: "",
+        duration: "",
+        isPublic: false,
+        targetDate: "",
+      });
+      }, 1200);
+    }
+  };
 
   const [goalFormData, setGoalFormData] = useState({
     title: "",
@@ -37,17 +103,6 @@ function CreateGoal() {
     selectedDreamGoal: "",
   });
 
-  const [step, setStep] = useState(1);
-  const [dreamProgress, setDreamProgress] = useState("0%");
-  const [goalProgress, setGoalProgress] = useState("0%");
-
-  // Mock data for existing dream goals - replace with actual API call
-  const [dreamGoals, setDreamGoals] = useState([
-    { id: 1, title: "Learn Full Stack Development" },
-    { id: 2, title: "Run a Marathon" },
-    { id: 3, title: "Learn a New Language" },
-  ]);
-
   const handleGoalInputChange = (e) => {
     const { name, value } = e.target;
     setGoalFormData({
@@ -56,58 +111,69 @@ function CreateGoal() {
     });
   };
 
-  const calculateDreamGoalProgress = ()=>{
-     const fields = [
-        formData.title,
-        formData.description,
-        formData.category,
-        formData.duration,
-      ];
-      const filledFields = fields.filter(
-        (field) => field && field.trim() !== ""
-      ).length;
+  const calculateDreamInput = () => {
+    const fields = [
+      formData.title,
+      formData.description,
+      formData.category,
+      formData.duration,
+    ];
+    const filledFields = fields.filter(
+      (field) => field && field.trim() !== ""
+    ).length;
 
-      return `${Math.round((filledFields / fields.length) * 100)}%`;
-  }
+    return `${Math.round((filledFields / fields.length) * 100)}%`;
+  };
 
   const calculateMakeGoalProgress = () => {
     if (step === 1) {
-        const step1Fields = [
-          goalFormData.title,
-          goalFormData.goalType,
-          goalFormData.description,
-        ];
-        const filledFields = step1Fields.filter(
-          (field) => field && field.trim() !== ""
-        ).length;
-        return `${(filledFields / step1Fields.length) * 50}%`; // Max 50% for step 1
-      } else {
-        const step1Fields = [goalFormData.title, goalFormData.goalType, goalFormData.description];
-        const step2Fields = [goalFormData.category, goalFormData.difficulty, goalFormData.frequency];
-        
-        const step1Filled = step1Fields.filter(field => field && field.trim() !== "").length;
-        const step2Filled = step2Fields.filter(field => field && field.trim() !== "").length;
-        
-        const step1Progress = (step1Filled / step1Fields.length) * 50; // 50% for step 1
-        const step2Progress = (step2Filled / step2Fields.length) * 50; // 50% for step 2
-        
-        return `${Math.round(step1Progress + step2Progress)}%`;
-      }
+      const step1Fields = [
+        goalFormData.title,
+        goalFormData.goalType,
+        goalFormData.description,
+      ];
+      const filledFields = step1Fields.filter(
+        (field) => field && field.trim() !== ""
+      ).length;
+      return `${(filledFields / step1Fields.length) * 50}%`; // Max 50% for step 1
+    } else {
+      const step1Fields = [
+        goalFormData.title,
+        goalFormData.goalType,
+        goalFormData.description,
+      ];
+      const step2Fields = [
+        goalFormData.category,
+        goalFormData.difficulty,
+        goalFormData.frequency,
+      ];
+
+      const step1Filled = step1Fields.filter(
+        (field) => field && field.trim() !== ""
+      ).length;
+      const step2Filled = step2Fields.filter(
+        (field) => field && field.trim() !== ""
+      ).length;
+
+      const step1Progress = (step1Filled / step1Fields.length) * 50; // 50% for step 1
+      const step2Progress = (step2Filled / step2Fields.length) * 50; // 50% for step 2
+
+      return `${Math.round(step1Progress + step2Progress)}%`;
+    }
   };
 
-useEffect(() => {
-  setDreamProgress(calculateDreamGoalProgress());
-}, [formData]);
+  useEffect(() => {
+    setDreamProgress(calculateDreamInput());
+  }, [formData]);
 
+  useEffect(() => {
+    setGoalProgress(calculateMakeGoalProgress());
+  }, [goalFormData, step]);
 
-useEffect(() => {
-  setGoalProgress(calculateMakeGoalProgress());
-}, [goalFormData, step]);
-
-const getCurrentProgress = ()=>{
-  console.log("dream progress",dreamProgress);
-  return activeTab === "dreamGoal" ? dreamProgress : goalProgress
-}
+  const getCurrentProgress = () => {
+    // console.log("dream progress",dreamProgress);
+    return activeTab === "dreamGoal" ? dreamProgress : goalProgress;
+  };
 
   useEffect(() => {
     if (formData.duration) {
@@ -174,6 +240,16 @@ const getCurrentProgress = ()=>{
         <CardContent>
           {activeTab === "dreamGoal" ? (
             <form className={`animate-fadeIn`}>
+              {errorDream && (
+                <div className="w-full text-sm p-3 mb-2 text-red-700 bg-red-100 border border-red-300 rounded-md">
+                  {errorDream}
+                </div>
+              )}
+              {successDream && (
+                <div className="w-full text-sm p-3 mb-2 text-green-700 bg-green-100 border  border-green-300 rounded-md">
+                  {successDream}
+                </div>
+              )}
               <div className="flex flex-col text-sm gap-4">
                 <div className="grid gap-2">
                   <Label htmlFor="title">Title</Label>
@@ -300,6 +376,16 @@ const getCurrentProgress = ()=>{
             </form>
           ) : (
             <form key={activeTab} className={`animate-fadeIn`}>
+              {errorGoal && (
+                <div className="w-full text-sm p-3 mb-2 text-red-700 bg-red-100 border border-red-300 rounded-md">
+                  {errorGoal}
+                </div>
+              )}
+              {successGoal && (
+                <div className="w-full text-sm p-3 mb-2 text-green-700 bg-green-100 border  border-green-300 rounded-md">
+                  {successGoal}
+                </div>
+              )}
               <div className="flex flex-col text-sm gap-4">
                 <div
                   className={`${step === 1 ? "opacity-100" : "opacity-0 hidden"}`}
@@ -519,15 +605,15 @@ const getCurrentProgress = ()=>{
           <Button
             type="button"
             className={`flex-1 ${activeTab === "makeGoal" && step === 1 ? " bg-green-600 hover:bg-green-500" : ""}`}
-            onClick={
-              ()=>{
-               if(activeTab === "makeGoal" && step === 1){
-                  setStep(2);
-                } else if(activeTab === "makeGoal" && step === 2){
-                  setStep(1);
-                }
+            onClick={(e) => {
+              if (activeTab === "makeGoal" && step === 1) {
+                setStep(2);
+              } else if (activeTab === "makeGoal" && step === 2) {
+                setStep(1);
+              } else {
+                handleSubmitDream(e);
               }
-            } 
+            }}
           >
             {activeTab === "dreamGoal"
               ? "Create Vision"
@@ -538,7 +624,7 @@ const getCurrentProgress = ()=>{
           <Button
             type="submit"
             variant="outline"
-            className={`${activeTab === "makeGoal"  && step === 2 ? "block" : "hidden"}  flex-1`}   
+            className={`${activeTab === "makeGoal" && step === 2 ? "block" : "hidden"}  flex-1`}
           >
             Set Goal
           </Button>

@@ -2,7 +2,7 @@ import React from 'react'
 import { Plus, Sparkles } from "lucide-react";
 
 
-function Hero() {
+function Hero({onCreateVision}) {
   return (
    <div className="bg-gradient-to-r lg:w-250 from-blue-600 to-purple-600 rounded-2xl relative overflow-hidden p-8 mb-10">
            {/* Glassmorphism Island */}
@@ -45,7 +45,9 @@ function Hero() {
           </p>
         </div>
         <div className="flex justify-center">
-          <button className="flex flex-row gap-1 mt-5 bg-white rounded p-2 text-sm text-blue-600 font-semibold">
+          <button className="flex flex-row gap-1 mt-5 bg-white rounded p-2 text-sm text-blue-600 font-semibold justify-center items-center"
+             onClick={()=>{onCreateVision()}}
+          >
             <Plus />
             Create your Vision
           </button>

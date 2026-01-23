@@ -1,17 +1,53 @@
 import React from "react";
-import { Trophy, Flame, Camera, Bell, LogOut, Lock, ChevronRight, Star, Shield, User } from "lucide-react";
-import { createAvatar } from "@dicebear/core";
-import { initials } from "@dicebear/collection";
-import Image from "next/image";
+import {
+  Trophy,
+  Flame,
+  Camera,
+  Bell,
+  LogOut,
+  Lock,
+  ChevronRight,
+  Star,
+  Shield,
+  User,
+} from "lucide-react";
 import Footer from "../footer/FooterContent";
+import dayjs from "dayjs";
+import Avatar from "./Avatar";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
-function ProfileCard() {
-  const avatar = createAvatar(initials, {
-    seed: "Fs",
-    radius: 50,
-    fontFamily: ["Tahoma"],
-    fontWeight: 600,
-  });
+function ProfileCard({ user, player, isPlayer }) {
+  
+  const API_URL = '/api/auth/log-out';
+  const router = useRouter();
+
+  const handleLogOut = async ()=>{
+    try {
+      const response = await axios.post(API_URL);
+
+      if(response.status === 200){
+        setTimeout(()=>{
+          router.push('/');
+        },1000);      
+      }
+    } catch (err) {
+      console.error("Error logging out", err);
+    }
+  }
+
+  const getInitials = ()=>{
+    if (!user) return "U";
+
+    const nameToUse = user.name || "User";
+    const parts = nameToUse.trim().split(" ");
+
+    if(parts>=2){
+      return (parts[0] + parts[1]).toUpperCase();
+    }
+
+    return nameToUse.substring(0,2).toUpperCase();
+  }
 
   return (
     <div className="max-h-screen overflow-y-auto hide-scrollbar p-4">
@@ -36,22 +72,35 @@ function ProfileCard() {
           }}
         ></div>
 
-        <div className="flex m-3">
-          <Image src={avatar.toDataUri()} alt="avatar" width={75} height={75} />
+        <div className="flex m-3 items-center">
+          <Avatar
+            initialsLetters={getInitials()}
+          />
           <div className="m-5">
-            <p className="font-bold text-xl">Fawzan Saeed</p>
-            <p className="text-gray-400 ">fauzdasoodais@gmail.com</p>
+            <p className="font-bold text-xl">{user.name}</p>
+            <p className="text-gray-400 ">{user.email}</p>
+            {/* <p className="text-gray-400 ">Verified: {user.isverified ? "Yes" : "No"}</p>
+            <p className="text-gray-400 ">Member since: {dayjs(user.created_at).format("YYYY-MM-DD")}</p>
+            <p className="mt-2 text-gray-400 ">Is Player: {isPlayer ? "Yes" : "No"}</p>
+            */}
 
-            <div className="flex mt-5 gap-5">
-              <div className="flex gap-2 justiy-center items-center bg-white/20 rounded-xl px-3 py-1">
-                <Star size={20} className="text-yellow-300" />
-                <p className="text-sm font-semibold">Level 1</p>
+            {isPlayer && player ? (
+              <div className="flex mt-5 gap-5">
+                <div className="flex gap-2 justiy-center items-center bg-white/20 rounded-xl px-3 py-1">
+                  <Star size={20} className="text-yellow-300" />
+                  <p className="text-sm font-semibold">Level 1</p>
+                </div>
+                <div className="flex gap-2 justiy-center items-center bg-white/20 rounded-xl px-3 py-1">
+                  <Shield size={20} className="text-blue-400" />
+                  <p className="text-sm font-semibold">0 Shields </p>
+                </div>
               </div>
-              <div className="flex gap-2 justiy-center items-center bg-white/20 rounded-xl px-3 py-1">
-                <Shield size={20} className="text-blue-400" />
-                <p className="text-sm font-semibold">0 Shields </p>
+            ) : ( 
+              <div className="mt-2 text-sm text-amber-300 cursor-pointer">
+                <p>No player profile yet</p>
+                <p>Create your vision to start</p>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
@@ -88,9 +137,7 @@ function ProfileCard() {
                 <Lock size={20} className="text-green-400" />
               </div>
               <div className="text-left">
-                <div className="text-white font-medium">
-                  Security
-                </div>
+                <div className="text-white font-medium">Security</div>
                 <div className="text-gray-400 text-sm">
                   Change password and security settings
                 </div>
@@ -108,9 +155,7 @@ function ProfileCard() {
                 <Bell size={20} className="text-blue-400" />
               </div>
               <div className="text-left">
-                <div className="text-white font-medium">
-                 Notifications
-                </div>
+                <div className="text-white font-medium">Notifications</div>
                 <div className="text-gray-400 text-sm">
                   Manage notification preferences
                 </div>
@@ -126,20 +171,22 @@ function ProfileCard() {
       <div className="bg-red-900/20 border mt-5 text-red-400 rounded-2xl p-6 border-red-700/50 ">
         <h3 className="font-semibold text-lg">Danger Zone</h3>
         <div className="flex flex-col mt-3 gap-3 ">
-        <button className="flex gap-2 justify-center items-center px-12 py-2 rounded-lg bg-red-900/40 border border-red-700/50 ">
-            Log out 
+          <button 
+          className="flex gap-2 justify-center items-center px-12 py-2 rounded-lg bg-red-900/40 border border-red-700/50 hover:bg-red-900/10"
+          onClick={handleLogOut}
+          >
+            Log out
             <LogOut />
-        </button>
-        <button className="flex gap-2 justify-center items-center px-12 py-2 rounded-lg bg-red-900/40 border border-red-700/50 ">
-           Delete Account
-        </button>
-
+          </button>
+          <button className="flex gap-2 justify-center items-center px-12 py-2 rounded-lg bg-red-900/40 border border-red-700/50 hover:bg-red-900/10">
+            Delete Account
+          </button>
         </div>
       </div>
-      
-     <footer className="mt-8 mb-3">
-      <Footer />
-     </footer>
+
+      <footer className="mt-8 mb-3">
+        <Footer />
+      </footer>
     </div>
   );
 }
